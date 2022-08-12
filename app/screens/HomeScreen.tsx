@@ -9,13 +9,15 @@ import {
 //Config
 import { POSTER_SIZE, BACKDROP_SIZE, IMAGE_BASE_URL } from "../config/config";
 //Components
-import HeroImage from "./HeroImage";
+import HeroImage from "../components/HeroImage";
+import SearchBar from "../components/SearchBar";
+import Thumb from "../components/Thumb";
 // import Grid from "./Grid";
 // import Thumb from "./Thumb";
-// import SearchBar from "./SearchBar";
 // import Button from "./Button";
 //Hooks
 import { useHomeFetch } from "../hooks/useHomeFetch";
+import HorizontalScroll from "../components/HorizontalScroll";
 
 // //Image
 // import NO_IMAGE from "../../images/no_image.jpg";
@@ -23,6 +25,7 @@ import { useHomeFetch } from "../hooks/useHomeFetch";
 function MovieHome() {
   const { state, loading, error, setSearchTerm, searchTerm, setIsLoadingMore } =
     useHomeFetch();
+  // console.log(state.results[0]?.backdrop_path);
 
   return (
     <SafeAreaView style={[styles.container]}>
@@ -33,9 +36,22 @@ function MovieHome() {
           text={state.results[0].overview}
         />
       )}
-      {state.results.map((movie) => (
+      <HorizontalScroll>
+        {state.results.map((movie) => (
+          <Thumb
+            key={movie.id}
+            image={
+              movie.poster_path
+                ? IMAGE_BASE_URL + POSTER_SIZE + movie.poster_path
+                : "no image"
+            }
+          />
+        ))}
+      </HorizontalScroll>
+      <SearchBar />
+      {/* {state.results.map((movie) => (
         <Text key={movie.id}>{movie.original_title}</Text>
-      ))}
+      ))} */}
     </SafeAreaView>
   );
 }

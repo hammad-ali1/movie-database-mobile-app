@@ -15,7 +15,7 @@ function HeroImage({ image, title, text }: PropTypes) {
         resizeMode="cover"
         style={styles.image}
       >
-        <Text style={styles.text}>Inside</Text>
+        <Text style={styles.text}>Inside Text</Text>
       </ImageBackground>
     </SafeAreaView>
   );

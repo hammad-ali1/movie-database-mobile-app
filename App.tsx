@@ -1,8 +1,8 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, SafeAreaView } from "react-native";
-
+import colors from "./app/config/colors";
 //Components
-import MovieHome from "./app/components/MovieHome";
+import MovieHome from "./app/screens/HomeScreen";
 
 export default function App() {
   return (
@@ -16,6 +16,6 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#363636",
+    backgroundColor: colors.primary,
   },
 });
