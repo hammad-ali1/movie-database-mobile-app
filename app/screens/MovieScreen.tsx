@@ -1,13 +1,15 @@
 import { StyleSheet, Text, View } from "react-native";
-
+//Hooks
+import { useMovieFetch } from "../hooks/useMovieFetch";
 //PropTypes
 type PropTypes = {};
 
-export default function MovieScreen({ navigation, route }: NavigatorProps) {
+export default function MovieScreen({ navigation, route }: RouteProps) {
   const { id } = route.params;
+  const { state: movie } = useMovieFetch(id);
   return (
     <View style={[styles.container]}>
-      <Text>{id}</Text>
+      <Text>{movie.original_title}</Text>
     </View>
   );
 }

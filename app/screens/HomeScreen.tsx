@@ -25,7 +25,7 @@ import HorizontalScroll from "../components/HorizontalScroll";
 // //Image
 // import NO_IMAGE from "../../images/no_image.jpg";
 
-function MovieHome({ navigation }: NavigatorProps) {
+function MovieHome({ navigation }: RouteProps) {
   const { state, loading, error, setSearchTerm, searchTerm, setIsLoadingMore } =
     useHomeFetch();
   // console.log(state.results[0]?.backdrop_path);
@@ -46,12 +46,12 @@ function MovieHome({ navigation }: NavigatorProps) {
       <HorizontalScroll>
         {state.results.map((movie) => (
           <TouchableOpacity
+            key={movie.id}
             onPress={() => {
-              navigation.navigate("Movie", { id: "hehe" });
+              navigation.navigate("Movie", { id: movie.id });
             }}
           >
             <Thumb
-              key={movie.id}
               image={
                 movie.poster_path
                   ? IMAGE_BASE_URL + POSTER_SIZE + movie.poster_path
