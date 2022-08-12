@@ -7,7 +7,7 @@ import {
   StatusBar,
 } from "react-native";
 //Config
-import { POSTER_SIZE, BACKDROP_SIZE, IMAGE_BASE_URL } from "../config";
+import { POSTER_SIZE, BACKDROP_SIZE, IMAGE_BASE_URL } from "../config/config";
 //Components
 import HeroImage from "./HeroImage";
 // import Grid from "./Grid";

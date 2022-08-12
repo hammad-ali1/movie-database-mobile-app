@@ -2,7 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, SafeAreaView } from "react-native";
 
 //Components
-import MovieHome from "./components/MovieHome";
+import MovieHome from "./app/components/MovieHome";
 
 export default function App() {
   return (
