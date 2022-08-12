@@ -3,10 +3,11 @@ import { StyleSheet, Text, View } from "react-native";
 //PropTypes
 type PropTypes = {};
 
-export default function SearchScreen({}: PropTypes) {
+export default function MovieScreen({ navigation, route }: NavigatorProps) {
+  const { id } = route.params;
   return (
     <View style={[styles.container]}>
-      <Text>teststsetstset</Text>
+      <Text>{id}</Text>
     </View>
   );
 }

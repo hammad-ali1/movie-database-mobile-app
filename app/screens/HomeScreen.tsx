@@ -5,7 +5,10 @@ import {
   SafeAreaView,
   Platform,
   StatusBar,
+  Button,
+  TouchableOpacity,
 } from "react-native";
+
 //Config
 import { POSTER_SIZE, BACKDROP_SIZE, IMAGE_BASE_URL } from "../config/config";
 //Components
@@ -22,13 +25,17 @@ import HorizontalScroll from "../components/HorizontalScroll";
 // //Image
 // import NO_IMAGE from "../../images/no_image.jpg";
 
-function MovieHome() {
+function MovieHome({ navigation }: NavigatorProps) {
   const { state, loading, error, setSearchTerm, searchTerm, setIsLoadingMore } =
     useHomeFetch();
   // console.log(state.results[0]?.backdrop_path);
 
   return (
     <SafeAreaView style={[styles.container]}>
+      <Button
+        title="Go to search"
+        onPress={() => navigation.navigate("Search")}
+      />
       {!searchTerm && state.results[0] && (
         <HeroImage
           image={`${IMAGE_BASE_URL}${BACKDROP_SIZE}${state.results[0].backdrop_path}`}
@@ -38,17 +45,22 @@ function MovieHome() {
       )}
       <HorizontalScroll>
         {state.results.map((movie) => (
-          <Thumb
-            key={movie.id}
-            image={
-              movie.poster_path
-                ? IMAGE_BASE_URL + POSTER_SIZE + movie.poster_path
-                : "no image"
-            }
-          />
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("Movie", { id: "hehe" });
+            }}
+          >
+            <Thumb
+              key={movie.id}
+              image={
+                movie.poster_path
+                  ? IMAGE_BASE_URL + POSTER_SIZE + movie.poster_path
+                  : "no image"
+              }
+            />
+          </TouchableOpacity>
         ))}
       </HorizontalScroll>
-      <SearchBar />
       {/* {state.results.map((movie) => (
         <Text key={movie.id}>{movie.original_title}</Text>
       ))} */}
@@ -61,9 +73,5 @@ export default MovieHome;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-
-    // alignItems: "center",
-    // justifyContent: "center",
   },
 });
