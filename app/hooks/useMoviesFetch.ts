@@ -15,6 +15,7 @@ function defautState() {
     popular: defaultMoviesObject(),
     topRated: defaultMoviesObject(),
     searchResults: defaultMoviesObject(),
+    trendingMovies: defaultMoviesObject(),
   };
 }
 
@@ -22,12 +23,14 @@ type HomeFetchParams = {
   search?: boolean;
   popular?: boolean;
   topRated?: boolean;
+  trending?: "day" | "week" | null;
 };
 export default function useMoviesFetch(
   options: HomeFetchParams = {
     search: false,
     popular: true,
     topRated: false,
+    trending: null,
   }
 ) {
   //states
@@ -60,6 +63,7 @@ export default function useMoviesFetch(
         popular: popularMovies,
         searchResults: searchResultMovies,
         topRated: topRatedMovies,
+        trendingMovies,
       } = defautState();
       if (options.popular) {
         popularMovies = await API.fetchPopularMovies(page);
@@ -69,6 +73,9 @@ export default function useMoviesFetch(
       }
       if (options.search && searchTerm) {
         searchResultMovies = await API.searchMovies(searchTerm, page);
+      }
+      if (options.trending) {
+        trendingMovies = await API.fetchTrendingMovies(options.trending);
       }
       // setState((prevState) => {
       //   const newState = defautState();
@@ -99,6 +106,7 @@ export default function useMoviesFetch(
             ...searchResultMovies.results,
           ],
         },
+        trendingMovies: { ...trendingMovies },
       }));
     } catch (err) {
       setError(true);

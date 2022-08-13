@@ -30,9 +30,11 @@ function MovieHome({ navigation }: RouteProps) {
     search: false,
     topRated: true,
     popular: true,
+    trending: "week",
   });
   const popularMovies = state.popular;
   const topMovies = state.topRated;
+  const trendinMovies = state.trendingMovies;
 
   const renderHorizontalScroll = (title: string, movies: Movie[]) => {
     return (
@@ -62,6 +64,7 @@ function MovieHome({ navigation }: RouteProps) {
   const horintalScrolls = [
     renderHorizontalScroll("TOP MOVIES", topMovies.results),
     renderHorizontalScroll("POPULAR MOVIES", popularMovies.results),
+    renderHorizontalScroll("TRENDING MOVIES", trendinMovies.results),
   ];
   return (
     <SafeAreaView style={[styles.container]}>

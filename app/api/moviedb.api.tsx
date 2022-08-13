@@ -99,6 +99,11 @@ const apiSettings = {
       await axios.get(`movie/popular?page=${page}`)
     ).data;
   },
+  fetchTrendingMovies: async (time_window: "day" | "week"): Promise<Movies> => {
+    return await (
+      await axios.get(`trending/movie/${time_window}`)
+    ).data;
+  },
   searchMovies: async (searchTerm: string, page: number): Promise<Movies> => {
     return await (
       await axios.get(`search/movie?query=${searchTerm}&page=${page}`)
