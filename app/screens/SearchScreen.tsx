@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 //Config
 import { POSTER_SIZE, BACKDROP_SIZE, IMAGE_BASE_URL } from "../config/config";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, Button } from "react-native";
 import HorizontalScroll from "../components/HorizontalScroll";
 import CustomTextInput from "../components/TextInput";
 import Thumb from "../components/Thumb";
@@ -23,7 +23,8 @@ export default function SearchScreen({}: PropTypes) {
           placeholder="Search Movies"
         />
       </View>
-      <Text>{searchTerm}</Text>
+      <Button title="Load More" onPress={() => setIsLoadingMore(true)} />
+
       {/* <HorizontalScroll style={styles.scroller}>
         {state.popular.results.map((movie) => (
           <TouchableOpacity key={movie.id}>

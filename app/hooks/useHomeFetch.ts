@@ -84,9 +84,21 @@ export const useHomeFetch = (
       // });
 
       setState((prevState) => ({
-        popular: { ...popularMovies },
-        topRated: { ...topRatedMovies },
-        searchResults: { ...searchResultMovies },
+        popular: {
+          ...popularMovies,
+          results: [...prevState.popular.results, ...popularMovies.results],
+        },
+        topRated: {
+          ...topRatedMovies,
+          results: [...prevState.topRated.results, ...topRatedMovies.results],
+        },
+        searchResults: {
+          ...searchResultMovies,
+          results: [
+            ...prevState.searchResults.results,
+            ...searchResultMovies.results,
+          ],
+        },
       }));
     } catch (err) {
       setError(true);
