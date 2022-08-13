@@ -1,20 +1,31 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { StyleSheet, Text, View } from "react-native";
 import CustomTextInput from "../components/TextInput";
+import { useHomeFetch } from "../hooks/useHomeFetch";
 
 //PropTypes
 type PropTypes = {};
 
 export default function SearchScreen({}: PropTypes) {
-  const [searchTerm, setSearchTerm] = useState("");
+  const {
+    state: movies,
+    loading,
+    error,
+    setSearchTerm,
+    searchTerm,
+    setIsLoadingMore,
+  } = useHomeFetch();
+
   return (
     <View style={[styles.container]}>
       <CustomTextInput
         setInputTerm={setSearchTerm}
         placeholder="Search Movies"
       />
-      <Text>{searchTerm}</Text>
+      <Text>
+        {movies.results.length > 0 && movies.results[0].original_title}
+      </Text>
     </View>
   );
 }
