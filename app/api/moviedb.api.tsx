@@ -102,8 +102,11 @@ const apiSettings = {
       await axios.get(`movie/popular?page=${page}`)
     ).data;
   },
-  searchMovie: async (searchTerm: string, page: number): Promise<Movies> => {
-    return axios.get(`movie/popular?query=${searchTerm}?page=${page}`);
+  searchMovies: async (searchTerm: string, page: number): Promise<Movies> => {
+    console.log(searchTerm, page);
+    return await (
+      await axios.get(`search/movie?query=${searchTerm}&page=${page}`)
+    ).data;
   },
   fetchMovie: async (movieId: number): Promise<Movie> => {
     return await (

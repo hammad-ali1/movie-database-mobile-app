@@ -12,7 +12,7 @@ type PropTypes = {};
 
 export default function SearchScreen({}: PropTypes) {
   const { state, loading, error, setSearchTerm, searchTerm, setIsLoadingMore } =
-    useHomeFetch({ search: true, popular: true });
+    useHomeFetch({ search: true });
   console.log(state);
 
   return (
@@ -38,7 +38,7 @@ export default function SearchScreen({}: PropTypes) {
         ))}
       </HorizontalScroll> */}
       <HorizontalScroll style={styles.scroller}>
-        {state.popular.results.map((movie) => (
+        {state.searchResults.results.map((movie) => (
           <TouchableOpacity key={movie.id}>
             <Thumb
               image={

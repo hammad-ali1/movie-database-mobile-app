@@ -14,6 +14,7 @@ function defautState() {
   return {
     popular: defaultMoviesObject(),
     topRated: defaultMoviesObject(),
+    searchResults: defaultMoviesObject(),
   };
 }
 
@@ -40,14 +41,15 @@ export const useHomeFetch = (
   //effects
   //initial render and search
   useEffect(() => {
-    if (options.search) {
-      if (searchTerm) {
-        fetchMovies(2);
-      } //change it later to searchMovies
-      return;
-    } else {
-      fetchMovies(1);
-    }
+    fetchMovies(1);
+    // if (options.search) {
+    //   if (searchTerm) {
+    //     fetchMovies(2);
+    //   } //change it later to searchMovies
+    //   return;
+    // } else {
+    //   fetchMovies(1);
+    // }
 
     // if (options.loadOnSearch && !searchTerm) {
     //   setState(defautState());
@@ -74,11 +76,15 @@ export const useHomeFetch = (
       setLoading(true);
       let popularMovies = defaultMoviesObject();
       let topRatedMovies = defaultMoviesObject();
+      let searchResultMovies = defaultMoviesObject();
       if (options.popular) {
         popularMovies = await API.fetchPopularMovies(page);
       }
       if (options.topRated) {
         topRatedMovies = await API.fetchTopMovies(page);
+      }
+      if (options.search && searchTerm) {
+        searchResultMovies = await API.searchMovies(searchTerm, page);
       }
       // setState((prevState) => {
       //   const newState = defautState();
@@ -96,6 +102,7 @@ export const useHomeFetch = (
       setState((prevState) => ({
         popular: { ...popularMovies },
         topRated: { ...topRatedMovies },
+        searchResults: { ...searchResultMovies },
       }));
     } catch (err) {
       setError(true);
