@@ -1,6 +1,8 @@
+import axios from "axios";
 import {
   SEARCH_BASE_URL,
   POPULAR_BASE_URL,
+  TOP_BASE_URL,
   MOVIE_API_URL,
   MOVIE_API_KEY,
   REQUEST_TOKEN_URL,
@@ -54,7 +56,32 @@ export type Credits = {
   crew: Crew[];
 };
 
+export type Video = {
+  iso_639_1: string;
+  iso_3166_1: string;
+  name: string;
+  key: string;
+  site: string;
+  size: number;
+  type: string;
+  official: boolean;
+  published_at: string;
+  id: string;
+};
+export type Videos = {
+  id: number; //movie id
+  results: Video[];
+};
+
 const apiSettings = {
+  fetchTopMovies: async (searchTerm: string, page: number): Promise<Movies> => {
+    const endpoint = `${TOP_BASE_URL}&page=${page}&language=en-US`;
+    console.log(endpoint);
+
+    return await (
+      await axios.get(endpoint)
+    ).data;
+  },
   fetchMovies: async (searchTerm: string, page: number): Promise<Movies> => {
     const endpoint: string = searchTerm
       ? `${SEARCH_BASE_URL}${searchTerm}&page=${page}`
@@ -64,6 +91,24 @@ const apiSettings = {
   fetchMovie: async (movieId: number): Promise<Movie> => {
     const endpoint: string = `${MOVIE_API_URL}movie/${movieId}?api_key=${MOVIE_API_KEY}`;
     return await (await fetch(endpoint)).json();
+  },
+  fetchSimilarMovies: async (movieId: number): Promise<Movies> => {
+    const endpoint: string = `${MOVIE_API_URL}movie/${movieId}/similar?api_key=${MOVIE_API_KEY}`;
+    return await (
+      await axios.get(endpoint)
+    ).data;
+  },
+  fetchLatestMovie: async (): Promise<Movie> => {
+    const endpoint: string = `${MOVIE_API_URL}movie/latest?api_key=${MOVIE_API_KEY}&language=en-US`;
+    return await (
+      await axios.get(endpoint)
+    ).data;
+  },
+  fetchVideos: async (movieId: number): Promise<Videos> => {
+    const endpoint: string = `${MOVIE_API_URL}movie/${movieId}/videos?api_key=${MOVIE_API_KEY}`;
+    return await (
+      await axios.get(endpoint)
+    ).data;
   },
   fetchCredits: async (movieId: number): Promise<Credits> => {
     const creditsEndpoint: string = `${MOVIE_API_URL}movie/${movieId}/credits?api_key=${MOVIE_API_KEY}`;

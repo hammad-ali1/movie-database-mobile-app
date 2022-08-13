@@ -9,6 +9,7 @@ const MOVIE_API_KEY: string | undefined = REACT_APP_MOVIE_API_KEY;
 
 const SEARCH_BASE_URL: string = `${MOVIE_API_URL}search/movie?api_key=${MOVIE_API_KEY}&language=en-US&query=`;
 const POPULAR_BASE_URL: string = `${MOVIE_API_URL}movie/popular?api_key=${MOVIE_API_KEY}&language=en-US`;
+const TOP_BASE_URL: string = `${MOVIE_API_URL}movie/top_rated?api_key=${MOVIE_API_KEY}&language=en-US`;
 // For login and voting
 const REQUEST_TOKEN_URL: string = `${MOVIE_API_URL}authentication/token/new?api_key=${MOVIE_API_KEY}`;
 const LOGIN_URL: string = `${MOVIE_API_URL}authentication/token/validate_with_login?api_key=${MOVIE_API_KEY}`;
@@ -34,4 +35,5 @@ export {
   IMAGE_BASE_URL,
   BACKDROP_SIZE,
   POSTER_SIZE,
+  TOP_BASE_URL,
 };
