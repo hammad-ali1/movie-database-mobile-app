@@ -23,5 +23,6 @@ export default function HorizontalScroll(props: FlatListProps<Movie>) {
 const styles = StyleSheet.create({
   defaultStyle: {
     backgroundColor: colors.scrollBarBackGround,
+    marginBottom: 10,
   },
 });

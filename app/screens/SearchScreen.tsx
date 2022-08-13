@@ -7,14 +7,10 @@ import CustomTextInput from "../components/TextInput";
 import Thumb from "../components/Thumb";
 import useMoviesFetch from "../hooks/useMoviesFetch";
 
-//PropTypes
-type PropTypes = {};
-
-export default function SearchScreen({}: PropTypes) {
+export default function SearchScreen({ navigation }: RouteProps) {
   const { state, loading, error, setSearchTerm, searchTerm, setIsLoadingMore } =
     useMoviesFetch({ search: true });
-  console.log(state);
-
+  const { searchResults } = state;
   return (
     <View style={[styles.container]}>
       <View style={styles.input}>
@@ -25,35 +21,26 @@ export default function SearchScreen({}: PropTypes) {
       </View>
       <Button title="Load More" onPress={() => setIsLoadingMore(true)} />
 
-      {/* <HorizontalScroll style={styles.scroller}>
-        {state.popular.results.map((movie) => (
-          <TouchableOpacity key={movie.id}>
+      <HorizontalScroll
+        data={searchResults.results}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            style={{ flexDirection: "row" }}
+            key={item.id}
+            onPress={() => {
+              navigation.navigate("Movie", { id: item.id });
+            }}
+          >
             <Thumb
               image={
-                movie.poster_path
-                  ? IMAGE_BASE_URL + POSTER_SIZE + movie.poster_path
+                item.poster_path
+                  ? IMAGE_BASE_URL + POSTER_SIZE + item.poster_path
                   : "no image"
               }
             />
           </TouchableOpacity>
-        ))}
-      </HorizontalScroll> */}
-      <HorizontalScroll style={styles.scroller}>
-        {state.searchResults.results.map((movie) => (
-          <TouchableOpacity key={movie.id}>
-            <Thumb
-              image={
-                movie.poster_path
-                  ? IMAGE_BASE_URL + POSTER_SIZE + movie.poster_path
-                  : "no image"
-              }
-            />
-          </TouchableOpacity>
-        ))}
-      </HorizontalScroll>
-      {/* <Text>
-        {movies.results.length > 0 && movies.results[0].original_title}
-      </Text> */}
+        )}
+      />
     </View>
   );
 }

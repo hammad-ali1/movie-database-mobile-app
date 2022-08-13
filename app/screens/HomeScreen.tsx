@@ -39,27 +39,42 @@ function MovieHome({ navigation }: RouteProps) {
       <HorizontalScroll
         data={topMovies.results}
         renderItem={({ item }) => (
-          <Thumb
-            image={
-              item.poster_path
-                ? IMAGE_BASE_URL + POSTER_SIZE + item.poster_path
-                : "no image"
-            }
-          />
-          // <TouchableOpacity
-          //   key={item.id}
-          //   onPress={() => {
-          //     navigation.navigate("Movie", { id: item.id });
-          //   }}
-          // >
-          //   <Thumb
-          //     image={
-          //       item.poster_path
-          //         ? IMAGE_BASE_URL + POSTER_SIZE + item.poster_path
-          //         : "no image"
-          //     }
-          //   />
-          // </TouchableOpacity>
+          <TouchableOpacity
+            style={{ flexDirection: "row" }}
+            key={item.id}
+            onPress={() => {
+              navigation.navigate("Movie", { id: item.id });
+            }}
+          >
+            <Thumb
+              image={
+                item.poster_path
+                  ? IMAGE_BASE_URL + POSTER_SIZE + item.poster_path
+                  : "no image"
+              }
+            />
+          </TouchableOpacity>
+        )}
+      />
+
+      <HorizontalScroll
+        data={popularMovies.results}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            style={{ flexDirection: "row" }}
+            key={item.id}
+            onPress={() => {
+              navigation.navigate("Movie", { id: item.id });
+            }}
+          >
+            <Thumb
+              image={
+                item.poster_path
+                  ? IMAGE_BASE_URL + POSTER_SIZE + item.poster_path
+                  : "no image"
+              }
+            />
+          </TouchableOpacity>
         )}
       />
 
