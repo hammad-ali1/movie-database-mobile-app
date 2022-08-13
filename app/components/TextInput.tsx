@@ -1,6 +1,8 @@
-import { useEffect, createRef, useState } from "react";
+import { useEffect, createRef, useState, useRef } from "react";
 import { StyleSheet, TextInput, View, TextInputProps } from "react-native";
+import useIsInitialRender from "../hooks/useIsInitialRender";
 
+//Hooks
 //PropTypes
 type PropTypes = { setInputTerm: setState<string> };
 
@@ -8,6 +10,8 @@ export default function CustomTextInput({
   setInputTerm,
   ...props
 }: PropTypes & TextInputProps) {
+  //
+  const isInitialRender = useIsInitialRender();
   //Refs
   const input = createRef<TextInput>();
   //States
@@ -16,6 +20,10 @@ export default function CustomTextInput({
   useEffect(() => {
     input.current?.focus();
   }, []);
+  useEffect(() => {
+    if (isInitialRender) return;
+    setInputTerm("");
+  }, [value]); //if user removes all text without submitting.
   return (
     <View style={[styles.container]}>
       <TextInput
