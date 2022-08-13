@@ -82,7 +82,10 @@ const apiSettings = {
       await axios.get(endpoint)
     ).data;
   },
-  fetchMovies: async (searchTerm: string, page: number): Promise<Movies> => {
+  fetchPopularMovies: async (
+    searchTerm: string,
+    page: number
+  ): Promise<Movies> => {
     const endpoint: string = searchTerm
       ? `${SEARCH_BASE_URL}${searchTerm}&page=${page}`
       : `${POPULAR_BASE_URL}&page=${page}`;

@@ -1,16 +1,31 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 //API
-import API, { Movie } from "../api/moviedb.api";
+import API, { Movie, Movies } from "../api/moviedb.api";
 
+function defaultMoviesObject() {
+  return {
+    page: 0,
+    results: [] as Movie[],
+    total_pages: 0,
+    total_results: 0,
+  };
+}
 const initialState = {
-  page: 0,
-  results: [] as Movie[],
-  total_pages: 0,
-  total_results: 0,
+  popular: defaultMoviesObject(),
+  topRated: defaultMoviesObject(),
 };
 
+type HomeFetchParams = {
+  loadOnSearch?: boolean;
+  popular?: boolean;
+  topRated?: boolean;
+};
 export const useHomeFetch = (
-  options: { loadOnSearch: boolean } = { loadOnSearch: false }
+  options: HomeFetchParams = {
+    loadOnSearch: false,
+    popular: true,
+    topRated: false,
+  }
 ) => {
   //states
   const [searchTerm, setSearchTerm] = useState("");
@@ -18,33 +33,61 @@ export const useHomeFetch = (
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
+  //private ref
+  const pageNumber = useRef(1);
   //effects
   //initial render and search
   useEffect(() => {
-    setState(initialState);
-    if (options.loadOnSearch && !searchTerm) return; //load only when searchTerm is specified
+    // setState(initialState);
+    if (options.loadOnSearch && !searchTerm) {
+      setState({
+        popular: defaultMoviesObject(),
+        topRated: defaultMoviesObject(),
+      });
+      pageNumber.current = 0;
+      return;
+    } //load only when searchTerm is specified
     fetchMovies(1, searchTerm);
   }, [searchTerm]);
   useEffect(() => {
     if (!isLoadingMore) return;
-    fetchMovies(state.page + 1, searchTerm);
+    if (options.loadOnSearch && !searchTerm) {
+      setState({
+        popular: defaultMoviesObject(),
+        topRated: defaultMoviesObject(),
+      });
+      pageNumber.current = 0;
+      return;
+    }
+    pageNumber.current++;
+    fetchMovies(pageNumber.current, searchTerm);
     setIsLoadingMore(false);
-  }, [isLoadingMore, searchTerm, state.page]);
+  }, [isLoadingMore, searchTerm]);
   //functions
   const fetchMovies = async (page: number, searchTerm = "") => {
     try {
       setError(false);
       setLoading(true);
-
-      const movies = await API.fetchMovies(searchTerm, page);
-
-      setState((prevState) => ({
-        ...movies,
-        results:
+      let popularMovies: Movies = defaultMoviesObject();
+      let topRatedMovies: Movies = defaultMoviesObject();
+      if (options.popular) {
+        popularMovies = await API.fetchPopularMovies(searchTerm, page);
+      }
+      if (options.topRated) {
+        topRatedMovies = await API.fetchPopularMovies(searchTerm, page);
+      }
+      setState((prevState) => {
+        const newState = initialState;
+        (newState.popular.results =
           page > 1
-            ? [...prevState.results, ...movies.results]
-            : [...movies.results],
-      }));
+            ? [...prevState.popular.results, ...popularMovies.results]
+            : [...popularMovies.results]),
+          (newState.topRated.results =
+            page > 1
+              ? [...prevState.topRated.results, ...topRatedMovies.results]
+              : [...topRatedMovies.results]);
+        return newState;
+      });
     } catch (err) {
       setError(true);
     }

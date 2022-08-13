@@ -19,20 +19,21 @@ import HorizontalScroll from "../components/HorizontalScroll";
 
 function MovieHome({ navigation }: RouteProps) {
   const { state, loading, error, setIsLoadingMore } = useHomeFetch();
+  const popularMovies = state.popular;
   // console.log(state.results[0]?.backdrop_path);
 
   return (
     <SafeAreaView style={[styles.container]}>
       <CustomStatusBar />
-      {state.results[0] && (
+      {popularMovies.results[0] && (
         <HeroImage
-          image={`${IMAGE_BASE_URL}${BACKDROP_SIZE}${state.results[0].backdrop_path}`}
-          title={state.results[0].original_title}
-          text={state.results[0].overview}
+          image={`${IMAGE_BASE_URL}${BACKDROP_SIZE}${popularMovies.results[0].backdrop_path}`}
+          title={popularMovies.results[0].original_title}
+          text={popularMovies.results[0].overview}
         />
       )}
       <HorizontalScroll>
-        {state.results.map((movie) => (
+        {popularMovies.results.map((movie) => (
           <TouchableOpacity
             key={movie.id}
             onPress={() => {
