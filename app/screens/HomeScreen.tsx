@@ -11,14 +11,14 @@ import CustomStatusBar from "../components/StatusBar";
 // import Thumb from "./Thumb";
 // import Button from "./Button";
 //Hooks
-import { useHomeFetch } from "../hooks/useHomeFetch";
+import useMoviesFetch from "../hooks/useMoviesFetch";
 import HorizontalScroll from "../components/HorizontalScroll";
 
 // //Image
 // import NO_IMAGE from "../../images/no_image.jpg";
 
 function MovieHome({ navigation }: RouteProps) {
-  const { state, loading, error, setIsLoadingMore } = useHomeFetch({
+  const { state, loading, error, setIsLoadingMore } = useMoviesFetch({
     search: false,
     topRated: true,
     popular: true,

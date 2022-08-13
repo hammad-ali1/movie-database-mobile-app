@@ -23,13 +23,13 @@ type HomeFetchParams = {
   popular?: boolean;
   topRated?: boolean;
 };
-export const useHomeFetch = (
+export default function useMoviesFetch(
   options: HomeFetchParams = {
     search: false,
     popular: true,
     topRated: false,
   }
-) => {
+) {
   //states
   const [searchTerm, setSearchTerm] = useState("");
   const [state, setState] = useState(defautState());
@@ -108,4 +108,4 @@ export const useHomeFetch = (
 
   //return states
   return { state, loading, error, setSearchTerm, searchTerm, setIsLoadingMore };
-};
+}

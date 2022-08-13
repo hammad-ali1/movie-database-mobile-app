@@ -5,14 +5,14 @@ import { StyleSheet, Text, View, TouchableOpacity, Button } from "react-native";
 import HorizontalScroll from "../components/HorizontalScroll";
 import CustomTextInput from "../components/TextInput";
 import Thumb from "../components/Thumb";
-import { useHomeFetch } from "../hooks/useHomeFetch";
+import useMoviesFetch from "../hooks/useMoviesFetch";
 
 //PropTypes
 type PropTypes = {};
 
 export default function SearchScreen({}: PropTypes) {
   const { state, loading, error, setSearchTerm, searchTerm, setIsLoadingMore } =
-    useHomeFetch({ search: true });
+    useMoviesFetch({ search: true });
   console.log(state);
 
   return (

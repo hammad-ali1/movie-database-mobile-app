@@ -11,7 +11,7 @@ type MovieFetchReturnType = {
   loading: boolean;
   error: boolean;
 };
-export const useMovieFetch = (movieId: number): MovieFetchReturnType => {
+const useMovieDetailsFetch = (movieId: number): MovieFetchReturnType => {
   //States
   const [state, setState] = useState({} as MovieStateType);
   const [loading, setLoading] = useState(true);
@@ -46,3 +46,5 @@ export const useMovieFetch = (movieId: number): MovieFetchReturnType => {
   //return statement of hook
   return { state, loading, error };
 };
+
+export default useMovieDetailsFetch;
