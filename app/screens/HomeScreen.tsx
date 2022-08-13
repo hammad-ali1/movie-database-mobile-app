@@ -21,6 +21,7 @@ import useMoviesFetch from "../hooks/useMoviesFetch";
 import HorizontalScroll from "../components/HorizontalScroll";
 import VerticalScroll from "../components/VerticalScroll";
 
+import { Movie } from "../api/moviedb.api";
 // //Image
 // import NO_IMAGE from "../../images/no_image.jpg";
 
@@ -33,50 +34,34 @@ function MovieHome({ navigation }: RouteProps) {
   const popularMovies = state.popular;
   const topMovies = state.topRated;
 
+  const renderHorizontalScroll = (title: string, movies: Movie[]) => {
+    return (
+      <HorizontalScroll
+        title={title}
+        data={movies}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            style={{ flexDirection: "row" }}
+            key={item.id}
+            onPress={() => {
+              navigation.navigate("Movie", { id: item.id });
+            }}
+          >
+            <Thumb
+              image={
+                item.poster_path
+                  ? IMAGE_BASE_URL + POSTER_SIZE + item.poster_path
+                  : "no image"
+              }
+            />
+          </TouchableOpacity>
+        )}
+      />
+    );
+  };
   const horintalScrolls = [
-    <HorizontalScroll
-      title="TOP MOVIES"
-      data={topMovies.results}
-      renderItem={({ item }) => (
-        <TouchableOpacity
-          style={{ flexDirection: "row" }}
-          key={item.id}
-          onPress={() => {
-            navigation.navigate("Movie", { id: item.id });
-          }}
-        >
-          <Thumb
-            image={
-              item.poster_path
-                ? IMAGE_BASE_URL + POSTER_SIZE + item.poster_path
-                : "no image"
-            }
-          />
-        </TouchableOpacity>
-      )}
-    />,
-
-    <HorizontalScroll
-      title="POPULAR MOVIES"
-      data={popularMovies.results}
-      renderItem={({ item }) => (
-        <TouchableOpacity
-          style={{ flexDirection: "row" }}
-          key={item.id}
-          onPress={() => {
-            navigation.navigate("Movie", { id: item.id });
-          }}
-        >
-          <Thumb
-            image={
-              item.poster_path
-                ? IMAGE_BASE_URL + POSTER_SIZE + item.poster_path
-                : "no image"
-            }
-          />
-        </TouchableOpacity>
-      )}
-    />,
+    renderHorizontalScroll("TOP MOVIES", topMovies.results),
+    renderHorizontalScroll("POPULAR MOVIES", popularMovies.results),
   ];
   return (
     <SafeAreaView style={[styles.container]}>
