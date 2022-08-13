@@ -1,15 +1,18 @@
-import { useEffect, createRef } from "react";
+import { useEffect, createRef, useState } from "react";
 import { StyleSheet, TextInput, View, TextInputProps } from "react-native";
 
 //PropTypes
-type PropTypes = { inputTerm: string; setInputTerm: setState<string> };
+type PropTypes = { setInputTerm: setState<string> };
 
 export default function CustomTextInput({
-  inputTerm,
   setInputTerm,
   ...props
 }: PropTypes & TextInputProps) {
+  //Refs
   const input = createRef<TextInput>();
+  //States
+  const [value, setValue] = useState("");
+  //Effects
   useEffect(() => {
     input.current?.focus();
   }, []);
@@ -19,9 +22,9 @@ export default function CustomTextInput({
         ref={input}
         {...props}
         style={styles.input}
-        value={inputTerm}
-        onChangeText={(text) => {
-          setInputTerm(text);
+        onChangeText={setValue}
+        onSubmitEditing={(event) => {
+          setInputTerm(value);
         }}
       />
     </View>

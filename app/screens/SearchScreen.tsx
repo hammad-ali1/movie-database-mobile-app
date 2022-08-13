@@ -11,7 +11,6 @@ export default function SearchScreen({}: PropTypes) {
   return (
     <View style={[styles.container]}>
       <CustomTextInput
-        inputTerm={searchTerm}
         setInputTerm={setSearchTerm}
         placeholder="Search Movies"
       />
