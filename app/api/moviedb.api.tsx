@@ -10,6 +10,14 @@ import {
   SESSION_ID_URL,
 } from "../config/config";
 
+axios.defaults.params = {
+  api_key: MOVIE_API_KEY,
+  language: "en-US",
+};
+// axios.defaults.params["api_key"] = MOVIE_API_KEY;
+// axios.defaults.params["language"] = "en-US";
+axios.defaults.baseURL = MOVIE_API_URL;
+
 const defaultConfig = {
   method: "POST",
   headers: {
@@ -75,46 +83,56 @@ export type Videos = {
 
 const apiSettings = {
   fetchTopMovies: async (searchTerm: string, page: number): Promise<Movies> => {
-    const endpoint = `${TOP_BASE_URL}&page=${page}&language=en-US`;
-
-    return await (
-      await axios.get(endpoint)
-    ).data;
+    try {
+      return await (
+        await axios.get("movie/top_rated")
+      ).data;
+    } catch (e) {
+      console.log(e);
+      throw new Error("error in fetching top movies");
+    }
   },
   fetchPopularMovies: async (
     searchTerm: string,
     page: number
   ): Promise<Movies> => {
-    const endpoint: string = searchTerm
-      ? `${SEARCH_BASE_URL}${searchTerm}&page=${page}`
-      : `${POPULAR_BASE_URL}&page=${page}`;
-    return await (await fetch(endpoint)).json();
+    try {
+      if (searchTerm) {
+        return axios.get(`movie/popular?query=${searchTerm}?page=${page}`);
+      } else {
+        return await (
+          await axios.get(`movie/popular?page=${page}`)
+        ).data;
+      }
+    } catch (e) {
+      console.log(e);
+      throw new Error("error in fetching top movies");
+    }
   },
   fetchMovie: async (movieId: number): Promise<Movie> => {
-    const endpoint: string = `${MOVIE_API_URL}movie/${movieId}?api_key=${MOVIE_API_KEY}`;
-    return await (await fetch(endpoint)).json();
+    return await (
+      await axios.get(`movie/${movieId}`)
+    ).data;
   },
   fetchSimilarMovies: async (movieId: number): Promise<Movies> => {
-    const endpoint: string = `${MOVIE_API_URL}movie/${movieId}/similar?api_key=${MOVIE_API_KEY}`;
     return await (
-      await axios.get(endpoint)
+      await axios.get(`movie/${movieId}/similar`)
     ).data;
   },
   fetchLatestMovie: async (): Promise<Movie> => {
-    const endpoint: string = `${MOVIE_API_URL}movie/latest?api_key=${MOVIE_API_KEY}&language=en-US`;
     return await (
-      await axios.get(endpoint)
+      await axios.get("movie/latest")
     ).data;
   },
   fetchVideos: async (movieId: number): Promise<Videos> => {
-    const endpoint: string = `${MOVIE_API_URL}movie/${movieId}/videos?api_key=${MOVIE_API_KEY}`;
     return await (
-      await axios.get(endpoint)
+      await axios.get(`movie/${movieId}/videos`)
     ).data;
   },
   fetchCredits: async (movieId: number): Promise<Credits> => {
-    const creditsEndpoint: string = `${MOVIE_API_URL}movie/${movieId}/credits?api_key=${MOVIE_API_KEY}`;
-    return await (await fetch(creditsEndpoint)).json();
+    return await (
+      await axios.get(`movie/${movieId}/credits`)
+    ).data;
   },
   // Bonus material below for login
   getRequestToken: async () => {
