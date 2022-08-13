@@ -1,4 +1,4 @@
-import axios from "axios";
+import axiosCreator from "axios";
 import {
   SEARCH_BASE_URL,
   POPULAR_BASE_URL,
@@ -10,13 +10,23 @@ import {
   SESSION_ID_URL,
 } from "../config/config";
 
-axios.defaults.params = {
-  api_key: MOVIE_API_KEY,
-  language: "en-US",
-};
-// axios.defaults.params["api_key"] = MOVIE_API_KEY;
-// axios.defaults.params["language"] = "en-US";
-axios.defaults.baseURL = MOVIE_API_URL;
+const axios = axiosCreator.create({
+  baseURL: MOVIE_API_URL,
+});
+//set axios configuration
+axios.interceptors.request.use((config) => {
+  config.params = config.params || {};
+  config.params["api_key"] = MOVIE_API_KEY;
+  config.params["language"] = "en-US";
+  return config;
+});
+axios.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    console.log(error);
+    throw error;
+  }
+);
 
 const defaultConfig = {
   method: "POST",
@@ -82,32 +92,18 @@ export type Videos = {
 };
 
 const apiSettings = {
-  fetchTopMovies: async (searchTerm: string, page: number): Promise<Movies> => {
-    try {
-      return await (
-        await axios.get("movie/top_rated")
-      ).data;
-    } catch (e) {
-      console.log(e);
-      throw new Error("error in fetching top movies");
-    }
+  fetchTopMovies: async (page: number): Promise<Movies> => {
+    return await (
+      await axios.get("movie/top_rated")
+    ).data;
   },
-  fetchPopularMovies: async (
-    searchTerm: string,
-    page: number
-  ): Promise<Movies> => {
-    try {
-      if (searchTerm) {
-        return axios.get(`movie/popular?query=${searchTerm}?page=${page}`);
-      } else {
-        return await (
-          await axios.get(`movie/popular?page=${page}`)
-        ).data;
-      }
-    } catch (e) {
-      console.log(e);
-      throw new Error("error in fetching top movies");
-    }
+  fetchPopularMovies: async (page: number): Promise<Movies> => {
+    return await (
+      await axios.get(`movie/popular?page=${page}`)
+    ).data;
+  },
+  searchMovie: async (searchTerm: string, page: number): Promise<Movies> => {
+    return axios.get(`movie/popular?query=${searchTerm}?page=${page}`);
   },
   fetchMovie: async (movieId: number): Promise<Movie> => {
     return await (

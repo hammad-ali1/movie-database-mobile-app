@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 //API
 import API, { Movie, Movies } from "../api/moviedb.api";
 
-function defaultMoviesObject() {
+function defaultMoviesObject(): Movies {
   return {
     page: 0,
     results: [] as Movie[],
@@ -18,13 +18,13 @@ function defautState() {
 }
 
 type HomeFetchParams = {
-  loadOnSearch?: boolean;
+  search?: boolean;
   popular?: boolean;
   topRated?: boolean;
 };
 export const useHomeFetch = (
   options: HomeFetchParams = {
-    loadOnSearch: false,
+    search: false,
     popular: true,
     topRated: false,
   }
@@ -40,50 +40,63 @@ export const useHomeFetch = (
   //effects
   //initial render and search
   useEffect(() => {
-    // setState(initialState);
-    if (options.loadOnSearch && !searchTerm) {
-      setState(defautState());
-      pageNumber.current = 0;
+    if (options.search) {
+      if (searchTerm) {
+        fetchMovies(2);
+      } //change it later to searchMovies
       return;
-    } //load only when searchTerm is specified
-    fetchMovies(1, searchTerm);
-  }, [searchTerm]);
-  useEffect(() => {
-    if (!isLoadingMore) return;
-    if (options.loadOnSearch && !searchTerm) {
-      setState(defautState());
-      pageNumber.current = 0;
-      return;
+    } else {
+      fetchMovies(1);
     }
-    pageNumber.current++;
-    fetchMovies(pageNumber.current, searchTerm);
-    setIsLoadingMore(false);
-  }, [isLoadingMore, searchTerm]);
+
+    // if (options.loadOnSearch && !searchTerm) {
+    //   setState(defautState());
+    //   pageNumber.current = 0;
+    //   return;
+    // } //load only when searchTerm is specified
+    // fetchMovies(1, searchTerm);
+  }, [searchTerm]);
+  // useEffect(() => {
+  //   if (!isLoadingMore) return;
+  //   // if (options.loadOnSearch && !searchTerm) {
+  //   //   setState(defautState());
+  //   //   pageNumber.current = 0;
+  //   //   return;
+  //   // }
+  //   pageNumber.current++;
+  //   fetchMovies(pageNumber.current);
+  //   setIsLoadingMore(false);
+  // }, [isLoadingMore, searchTerm]);
   //functions
-  const fetchMovies = async (page: number, searchTerm = "") => {
+  const fetchMovies = async (page: number) => {
     try {
       setError(false);
       setLoading(true);
-      let popularMovies: Movies = defaultMoviesObject();
-      let topRatedMovies: Movies = defaultMoviesObject();
+      let popularMovies = defaultMoviesObject();
+      let topRatedMovies = defaultMoviesObject();
       if (options.popular) {
-        popularMovies = await API.fetchPopularMovies(searchTerm, page);
+        popularMovies = await API.fetchPopularMovies(page);
       }
       if (options.topRated) {
-        topRatedMovies = await API.fetchTopMovies(searchTerm, page);
+        topRatedMovies = await API.fetchTopMovies(page);
       }
-      setState((prevState) => {
-        const newState = defautState();
-        (newState.popular.results =
-          page > 1
-            ? [...prevState.popular.results, ...popularMovies.results]
-            : [...popularMovies.results]),
-          (newState.topRated.results =
-            page > 1
-              ? [...prevState.topRated.results, ...topRatedMovies.results]
-              : [...topRatedMovies.results]);
-        return newState;
-      });
+      // setState((prevState) => {
+      //   const newState = defautState();
+      //   (newState.popular.results =
+      //     page > 1
+      //       ? [...prevState.popular.results, ...popularMovies.results]
+      //       : [...popularMovies.results]),
+      //     (newState.topRated.results =
+      //       page > 1
+      //         ? [...prevState.topRated.results, ...topRatedMovies.results]
+      //         : [...topRatedMovies.results]);
+      //   return newState;
+      // });
+
+      setState((prevState) => ({
+        popular: { ...popularMovies },
+        topRated: { ...topRatedMovies },
+      }));
     } catch (err) {
       setError(true);
     }

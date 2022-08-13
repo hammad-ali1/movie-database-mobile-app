@@ -19,7 +19,7 @@ import HorizontalScroll from "../components/HorizontalScroll";
 
 function MovieHome({ navigation }: RouteProps) {
   const { state, loading, error, setIsLoadingMore } = useHomeFetch({
-    loadOnSearch: false,
+    search: false,
     topRated: true,
     popular: true,
   });

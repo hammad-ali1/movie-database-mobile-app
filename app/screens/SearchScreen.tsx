@@ -12,7 +12,8 @@ type PropTypes = {};
 
 export default function SearchScreen({}: PropTypes) {
   const { state, loading, error, setSearchTerm, searchTerm, setIsLoadingMore } =
-    useHomeFetch({ loadOnSearch: true, popular: true, topRated: true });
+    useHomeFetch({ search: true, popular: true });
+  console.log(state);
 
   return (
     <View style={[styles.container]}>
@@ -22,8 +23,9 @@ export default function SearchScreen({}: PropTypes) {
           placeholder="Search Movies"
         />
       </View>
-      <HorizontalScroll style={styles.scroller}>
-        {state.topRated.results.map((movie) => (
+      <Text>{searchTerm}</Text>
+      {/* <HorizontalScroll style={styles.scroller}>
+        {state.popular.results.map((movie) => (
           <TouchableOpacity key={movie.id}>
             <Thumb
               image={
@@ -34,7 +36,7 @@ export default function SearchScreen({}: PropTypes) {
             />
           </TouchableOpacity>
         ))}
-      </HorizontalScroll>
+      </HorizontalScroll> */}
       <HorizontalScroll style={styles.scroller}>
         {state.popular.results.map((movie) => (
           <TouchableOpacity key={movie.id}>
