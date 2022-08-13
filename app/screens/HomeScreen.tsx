@@ -37,6 +37,7 @@ function MovieHome({ navigation }: RouteProps) {
         />
       )}
       <HorizontalScroll
+        title="TOP MOVIES"
         data={topMovies.results}
         renderItem={({ item }) => (
           <TouchableOpacity
@@ -58,6 +59,7 @@ function MovieHome({ navigation }: RouteProps) {
       />
 
       <HorizontalScroll
+        title="POPULAR MOVIES"
         data={popularMovies.results}
         renderItem={({ item }) => (
           <TouchableOpacity

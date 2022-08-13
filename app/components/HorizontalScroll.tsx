@@ -10,19 +10,38 @@ import {
 import { Movie } from "../api/moviedb.api";
 import colors from "../config/colors";
 
-export default function HorizontalScroll(props: FlatListProps<Movie>) {
+//Types
+type PropTypes = {
+  title?: string;
+};
+export default function HorizontalScroll({
+  title,
+  ...props
+}: PropTypes & FlatListProps<Movie>) {
   return (
-    <FlatList
-      horizontal
-      style={[styles.defaultStyle, props.style]}
-      {...props}
-      keyExtractor={(item, index) => item.id.toString() + index}
-    />
+    <View style={styles.listContainer}>
+      {title && <Text style={styles.title}>{title}</Text>}
+      <FlatList
+        horizontal
+        style={[styles.defaultListStyle, props.style]}
+        {...props}
+        keyExtractor={(item, index) => item.id.toString() + index}
+      />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  defaultStyle: {
+  listContainer: {
+    flex: 1,
+  },
+  title: {
+    color: colors.scrollBarTitle,
+    fontSize: 20,
+    fontWeight: "bold",
+    padding: 5,
+  },
+  defaultListStyle: {
     backgroundColor: colors.scrollBarBackGround,
     marginBottom: 10,
   },
