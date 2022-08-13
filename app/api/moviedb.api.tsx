@@ -76,7 +76,6 @@ export type Videos = {
 const apiSettings = {
   fetchTopMovies: async (searchTerm: string, page: number): Promise<Movies> => {
     const endpoint = `${TOP_BASE_URL}&page=${page}&language=en-US`;
-    console.log(endpoint);
 
     return await (
       await axios.get(endpoint)

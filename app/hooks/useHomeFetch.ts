@@ -10,10 +10,12 @@ function defaultMoviesObject() {
     total_results: 0,
   };
 }
-const initialState = {
-  popular: defaultMoviesObject(),
-  topRated: defaultMoviesObject(),
-};
+function defautState() {
+  return {
+    popular: defaultMoviesObject(),
+    topRated: defaultMoviesObject(),
+  };
+}
 
 type HomeFetchParams = {
   loadOnSearch?: boolean;
@@ -29,7 +31,7 @@ export const useHomeFetch = (
 ) => {
   //states
   const [searchTerm, setSearchTerm] = useState("");
-  const [state, setState] = useState(initialState);
+  const [state, setState] = useState(defautState());
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
@@ -40,10 +42,7 @@ export const useHomeFetch = (
   useEffect(() => {
     // setState(initialState);
     if (options.loadOnSearch && !searchTerm) {
-      setState({
-        popular: defaultMoviesObject(),
-        topRated: defaultMoviesObject(),
-      });
+      setState(defautState());
       pageNumber.current = 0;
       return;
     } //load only when searchTerm is specified
@@ -52,10 +51,7 @@ export const useHomeFetch = (
   useEffect(() => {
     if (!isLoadingMore) return;
     if (options.loadOnSearch && !searchTerm) {
-      setState({
-        popular: defaultMoviesObject(),
-        topRated: defaultMoviesObject(),
-      });
+      setState(defautState());
       pageNumber.current = 0;
       return;
     }
@@ -74,10 +70,10 @@ export const useHomeFetch = (
         popularMovies = await API.fetchPopularMovies(searchTerm, page);
       }
       if (options.topRated) {
-        topRatedMovies = await API.fetchPopularMovies(searchTerm, page);
+        topRatedMovies = await API.fetchTopMovies(searchTerm, page);
       }
       setState((prevState) => {
-        const newState = initialState;
+        const newState = defautState();
         (newState.popular.results =
           page > 1
             ? [...prevState.popular.results, ...popularMovies.results]

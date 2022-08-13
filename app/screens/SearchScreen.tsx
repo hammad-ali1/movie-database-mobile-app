@@ -12,8 +12,8 @@ type PropTypes = {};
 
 export default function SearchScreen({}: PropTypes) {
   const { state, loading, error, setSearchTerm, searchTerm, setIsLoadingMore } =
-    useHomeFetch({ loadOnSearch: true, popular: true });
-  // const popularMovies = state.popular;
+    useHomeFetch({ loadOnSearch: true, popular: true, topRated: true });
+
   return (
     <View style={[styles.container]}>
       <View style={styles.input}>
@@ -22,6 +22,19 @@ export default function SearchScreen({}: PropTypes) {
           placeholder="Search Movies"
         />
       </View>
+      <HorizontalScroll style={styles.scroller}>
+        {state.topRated.results.map((movie) => (
+          <TouchableOpacity key={movie.id}>
+            <Thumb
+              image={
+                movie.poster_path
+                  ? IMAGE_BASE_URL + POSTER_SIZE + movie.poster_path
+                  : "no image"
+              }
+            />
+          </TouchableOpacity>
+        ))}
+      </HorizontalScroll>
       <HorizontalScroll style={styles.scroller}>
         {state.popular.results.map((movie) => (
           <TouchableOpacity key={movie.id}>

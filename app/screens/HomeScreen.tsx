@@ -18,9 +18,13 @@ import HorizontalScroll from "../components/HorizontalScroll";
 // import NO_IMAGE from "../../images/no_image.jpg";
 
 function MovieHome({ navigation }: RouteProps) {
-  const { state, loading, error, setIsLoadingMore } = useHomeFetch();
+  const { state, loading, error, setIsLoadingMore } = useHomeFetch({
+    loadOnSearch: false,
+    topRated: true,
+    popular: true,
+  });
   const popularMovies = state.popular;
-  // console.log(state.results[0]?.backdrop_path);
+  const topMovies = state.topRated;
 
   return (
     <SafeAreaView style={[styles.container]}>
@@ -32,6 +36,24 @@ function MovieHome({ navigation }: RouteProps) {
           text={popularMovies.results[0].overview}
         />
       )}
+      <HorizontalScroll>
+        {topMovies.results.map((movie) => (
+          <TouchableOpacity
+            key={movie.id}
+            onPress={() => {
+              navigation.navigate("Movie", { id: movie.id });
+            }}
+          >
+            <Thumb
+              image={
+                movie.poster_path
+                  ? IMAGE_BASE_URL + POSTER_SIZE + movie.poster_path
+                  : "no image"
+              }
+            />
+          </TouchableOpacity>
+        ))}
+      </HorizontalScroll>
       <HorizontalScroll>
         {popularMovies.results.map((movie) => (
           <TouchableOpacity
