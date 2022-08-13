@@ -16,6 +16,7 @@ export default function HorizontalScroll(props: FlatListProps<Movie>) {
       horizontal
       style={[styles.defaultStyle, props.style]}
       {...props}
+      keyExtractor={(item, index) => item.id.toString() + index}
     />
   );
 }

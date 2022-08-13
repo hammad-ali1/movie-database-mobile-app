@@ -1,8 +1,5 @@
 import axiosCreator from "axios";
 import {
-  SEARCH_BASE_URL,
-  POPULAR_BASE_URL,
-  TOP_BASE_URL,
   MOVIE_API_URL,
   MOVIE_API_KEY,
   REQUEST_TOKEN_URL,
