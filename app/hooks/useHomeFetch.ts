@@ -8,7 +8,10 @@ const initialState = {
   total_pages: 0,
   total_results: 0,
 };
-export const useHomeFetch = () => {
+
+export const useHomeFetch = (
+  options: { loadOnSearch: boolean } = { loadOnSearch: false }
+) => {
   //states
   const [searchTerm, setSearchTerm] = useState("");
   const [state, setState] = useState(initialState);
@@ -19,6 +22,7 @@ export const useHomeFetch = () => {
   //initial render and search
   useEffect(() => {
     setState(initialState);
+    if (options.loadOnSearch && !searchTerm) return; //load only when searchTerm is specified
     fetchMovies(1, searchTerm);
   }, [searchTerm]);
   useEffect(() => {

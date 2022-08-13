@@ -18,7 +18,7 @@ export default function SearchScreen({}: PropTypes) {
     setSearchTerm,
     searchTerm,
     setIsLoadingMore,
-  } = useHomeFetch();
+  } = useHomeFetch({ loadOnSearch: true });
   return (
     <View style={[styles.container]}>
       <View style={styles.input}>
