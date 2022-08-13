@@ -93,18 +93,28 @@ export default function useMoviesFetch(
       setState((prevState) => ({
         popular: {
           ...popularMovies,
-          results: [...prevState.popular.results, ...popularMovies.results],
+          results:
+            page > 1
+              ? [...prevState.popular.results, ...popularMovies.results]
+              : [...popularMovies.results],
         },
         topRated: {
           ...topRatedMovies,
-          results: [...prevState.topRated.results, ...topRatedMovies.results],
+
+          results:
+            page > 1
+              ? [...prevState.topRated.results, ...topRatedMovies.results]
+              : [...topRatedMovies.results],
         },
         searchResults: {
           ...searchResultMovies,
-          results: [
-            ...prevState.searchResults.results,
-            ...searchResultMovies.results,
-          ],
+          results:
+            page > 1
+              ? [
+                  ...prevState.searchResults.results,
+                  ...searchResultMovies.results,
+                ]
+              : [...searchResultMovies.results],
         },
         trendingMovies: { ...trendingMovies },
       }));
