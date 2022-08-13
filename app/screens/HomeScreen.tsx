@@ -18,14 +18,13 @@ import HorizontalScroll from "../components/HorizontalScroll";
 // import NO_IMAGE from "../../images/no_image.jpg";
 
 function MovieHome({ navigation }: RouteProps) {
-  const { state, loading, error, setSearchTerm, searchTerm, setIsLoadingMore } =
-    useHomeFetch();
+  const { state, loading, error, setIsLoadingMore } = useHomeFetch();
   // console.log(state.results[0]?.backdrop_path);
 
   return (
     <SafeAreaView style={[styles.container]}>
       <CustomStatusBar />
-      {!searchTerm && state.results[0] && (
+      {state.results[0] && (
         <HeroImage
           image={`${IMAGE_BASE_URL}${BACKDROP_SIZE}${state.results[0].backdrop_path}`}
           title={state.results[0].original_title}

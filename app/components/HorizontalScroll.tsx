@@ -1,12 +1,15 @@
 import React from "react";
-import { StyleSheet, Text, ScrollView, View } from "react-native";
+import { StyleSheet, Text, ScrollView, View, ViewProps } from "react-native";
 import colors from "../config/colors";
 //PropTypes
 type PropTypes = { children?: React.ReactNode };
 
-export default function HorizontalScroll({ children }: PropTypes) {
+export default function HorizontalScroll({
+  children,
+  ...props
+}: PropTypes & ViewProps) {
   return (
-    <View style={[styles.container]}>
+    <View style={[styles.container]} {...props}>
       <ScrollView horizontal>
         <View style={styles.scrollItems}>{children}</View>
       </ScrollView>

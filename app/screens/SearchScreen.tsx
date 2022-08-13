@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
-
-import { StyleSheet, Text, View } from "react-native";
+//Config
+import { POSTER_SIZE, BACKDROP_SIZE, IMAGE_BASE_URL } from "../config/config";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import HorizontalScroll from "../components/HorizontalScroll";
 import CustomTextInput from "../components/TextInput";
+import Thumb from "../components/Thumb";
 import { useHomeFetch } from "../hooks/useHomeFetch";
 
 //PropTypes
@@ -16,16 +19,30 @@ export default function SearchScreen({}: PropTypes) {
     searchTerm,
     setIsLoadingMore,
   } = useHomeFetch();
-
   return (
     <View style={[styles.container]}>
-      <CustomTextInput
-        setInputTerm={setSearchTerm}
-        placeholder="Search Movies"
-      />
-      <Text>
+      <View style={styles.input}>
+        <CustomTextInput
+          setInputTerm={setSearchTerm}
+          placeholder="Search Movies"
+        />
+      </View>
+      <HorizontalScroll style={styles.scroller}>
+        {movies.results.map((movie) => (
+          <TouchableOpacity key={movie.id}>
+            <Thumb
+              image={
+                movie.poster_path
+                  ? IMAGE_BASE_URL + POSTER_SIZE + movie.poster_path
+                  : "no image"
+              }
+            />
+          </TouchableOpacity>
+        ))}
+      </HorizontalScroll>
+      {/* <Text>
         {movies.results.length > 0 && movies.results[0].original_title}
-      </Text>
+      </Text> */}
     </View>
   );
 }
@@ -33,5 +50,13 @@ export default function SearchScreen({}: PropTypes) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  input: {
+    flex: 1,
+    backgroundColor: "red",
+  },
+  scroller: {
+    flex: 1,
+    backgroundColor: "red",
   },
 });
