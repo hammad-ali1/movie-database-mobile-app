@@ -1,5 +1,6 @@
 export {};
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { Movie } from "../api/moviedb.api";
 
 declare global {
   //Stack Types
@@ -14,4 +15,7 @@ declare global {
 
   //others
   type setState<T> = React.Dispatch<React.SetStateAction<T>>;
+
+  //items in scrollBar
+  type ScrollItems = Movie | any;
 }

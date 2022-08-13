@@ -1,23 +1,32 @@
 import React from "react";
 import { StyleSheet, Text, View, FlatList, FlatListProps } from "react-native";
-import { Movie } from "../api/moviedb.api";
 import colors from "../config/colors";
 
 //Types
 type PropTypes = {
   title?: string;
+  margin?: number | string;
 };
-export default function HorizontalScroll({
+export default function VerticalScroll({
   title,
+  margin,
   ...props
-}: PropTypes & FlatListProps<Movie>) {
+}: PropTypes & FlatListProps<ScrollItems>) {
   return (
     <View style={styles.listContainer}>
       {title && <Text style={styles.title}>{title}</Text>}
       <FlatList
-        horizontal
         style={[styles.defaultListStyle, props.style]}
         keyExtractor={(item, index) => item.id.toString() + index}
+        ItemSeparatorComponent={() => {
+          return (
+            <View
+              style={{
+                margin: margin ? margin : 0,
+              }}
+            />
+          );
+        }}
         {...props}
       />
     </View>
@@ -27,7 +36,6 @@ export default function HorizontalScroll({
 const styles = StyleSheet.create({
   listContainer: {
     flex: 1,
-    marginBottom: 10,
   },
   title: {
     color: colors.scrollBarTitle,
@@ -36,6 +44,7 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   defaultListStyle: {
-    backgroundColor: colors.horizontalScrollBarBackGround,
+    backgroundColor: colors.verticalScrollBackGround,
+    marginBottom: 10,
   },
 });

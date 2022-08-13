@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, SafeAreaView, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  SafeAreaView,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 //Config
 import { POSTER_SIZE, BACKDROP_SIZE, IMAGE_BASE_URL } from "../config/config";
@@ -13,6 +19,7 @@ import CustomStatusBar from "../components/StatusBar";
 //Hooks
 import useMoviesFetch from "../hooks/useMoviesFetch";
 import HorizontalScroll from "../components/HorizontalScroll";
+import VerticalScroll from "../components/VerticalScroll";
 
 // //Image
 // import NO_IMAGE from "../../images/no_image.jpg";
@@ -26,6 +33,51 @@ function MovieHome({ navigation }: RouteProps) {
   const popularMovies = state.popular;
   const topMovies = state.topRated;
 
+  const horintalScrolls = [
+    <HorizontalScroll
+      title="TOP MOVIES"
+      data={topMovies.results}
+      renderItem={({ item }) => (
+        <TouchableOpacity
+          style={{ flexDirection: "row" }}
+          key={item.id}
+          onPress={() => {
+            navigation.navigate("Movie", { id: item.id });
+          }}
+        >
+          <Thumb
+            image={
+              item.poster_path
+                ? IMAGE_BASE_URL + POSTER_SIZE + item.poster_path
+                : "no image"
+            }
+          />
+        </TouchableOpacity>
+      )}
+    />,
+
+    <HorizontalScroll
+      title="POPULAR MOVIES"
+      data={popularMovies.results}
+      renderItem={({ item }) => (
+        <TouchableOpacity
+          style={{ flexDirection: "row" }}
+          key={item.id}
+          onPress={() => {
+            navigation.navigate("Movie", { id: item.id });
+          }}
+        >
+          <Thumb
+            image={
+              item.poster_path
+                ? IMAGE_BASE_URL + POSTER_SIZE + item.poster_path
+                : "no image"
+            }
+          />
+        </TouchableOpacity>
+      )}
+    />,
+  ];
   return (
     <SafeAreaView style={[styles.container]}>
       <CustomStatusBar />
@@ -36,48 +88,12 @@ function MovieHome({ navigation }: RouteProps) {
           text={popularMovies.results[0].overview}
         />
       )}
-      <HorizontalScroll
-        title="TOP MOVIES"
-        data={topMovies.results}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            style={{ flexDirection: "row" }}
-            key={item.id}
-            onPress={() => {
-              navigation.navigate("Movie", { id: item.id });
-            }}
-          >
-            <Thumb
-              image={
-                item.poster_path
-                  ? IMAGE_BASE_URL + POSTER_SIZE + item.poster_path
-                  : "no image"
-              }
-            />
-          </TouchableOpacity>
-        )}
-      />
-
-      <HorizontalScroll
-        title="POPULAR MOVIES"
-        data={popularMovies.results}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            style={{ flexDirection: "row" }}
-            key={item.id}
-            onPress={() => {
-              navigation.navigate("Movie", { id: item.id });
-            }}
-          >
-            <Thumb
-              image={
-                item.poster_path
-                  ? IMAGE_BASE_URL + POSTER_SIZE + item.poster_path
-                  : "no image"
-              }
-            />
-          </TouchableOpacity>
-        )}
+      <VerticalScroll
+        title="MOVIES"
+        data={horintalScrolls}
+        margin={20}
+        renderItem={({ item }) => item}
+        keyExtractor={(item, index) => index.toString()}
       />
 
       {/* <HorizontalScroll>
