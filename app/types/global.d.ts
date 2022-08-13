@@ -1,5 +1,6 @@
 export {};
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { GestureResponderEvent } from "react-native";
 import { Movie } from "../api/moviedb.api";
 
 declare global {
@@ -15,7 +16,7 @@ declare global {
 
   //others
   type setState<T> = React.Dispatch<React.SetStateAction<T>>;
-
+  type onPressHandler = (event: GestureResponderEvent) => void;
   //items in scrollBar
   type ScrollItems = Movie | any;
 }

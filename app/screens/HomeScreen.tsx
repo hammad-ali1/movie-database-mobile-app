@@ -1,29 +1,18 @@
-import React, { useState, useEffect } from "react";
-import {
-  StyleSheet,
-  Text,
-  SafeAreaView,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { StyleSheet, SafeAreaView } from "react-native";
 
 //Config
 import { POSTER_SIZE, BACKDROP_SIZE, IMAGE_BASE_URL } from "../config/config";
 //Components
 import HeroImage from "../components/HeroImage";
-import Thumb from "../components/Thumb";
 import CustomStatusBar from "../components/StatusBar";
 // import Grid from "./Grid";
 // import Thumb from "./Thumb";
 // import Button from "./Button";
 //Hooks
 import useMoviesFetch from "../hooks/useMoviesFetch";
-import HorizontalScroll from "../components/HorizontalScroll";
 import VerticalScroll from "../components/VerticalScroll";
-
-import { Movie } from "../api/moviedb.api";
-// //Image
-// import NO_IMAGE from "../../images/no_image.jpg";
+// helpers
+import { renderHorizontalScroll } from "../helpers/renderers";
 
 function MovieHome({ navigation }: RouteProps) {
   const { state, loading, error, setIsLoadingMore } = useMoviesFetch({
@@ -36,35 +25,14 @@ function MovieHome({ navigation }: RouteProps) {
   const topMovies = state.topRated;
   const trendinMovies = state.trendingMovies;
 
-  const renderHorizontalScroll = (title: string, movies: Movie[]) => {
-    return (
-      <HorizontalScroll
-        title={title}
-        data={movies}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            style={{ flexDirection: "row" }}
-            key={item.id}
-            onPress={() => {
-              navigation.navigate("Movie", { id: item.id });
-            }}
-          >
-            <Thumb
-              image={
-                item.poster_path
-                  ? IMAGE_BASE_URL + POSTER_SIZE + item.poster_path
-                  : "no image"
-              }
-            />
-          </TouchableOpacity>
-        )}
-      />
-    );
-  };
   const horintalScrolls = [
-    renderHorizontalScroll("TOP MOVIES", topMovies.results),
-    renderHorizontalScroll("POPULAR MOVIES", popularMovies.results),
-    renderHorizontalScroll("TRENDING MOVIES", trendinMovies.results),
+    renderHorizontalScroll("TOP MOVIES", topMovies.results, navigation),
+    renderHorizontalScroll("POPULAR MOVIES", popularMovies.results, navigation),
+    renderHorizontalScroll(
+      "TRENDING MOVIES",
+      trendinMovies.results,
+      navigation
+    ),
   ];
   return (
     <SafeAreaView style={[styles.container]}>
@@ -83,46 +51,6 @@ function MovieHome({ navigation }: RouteProps) {
         renderItem={({ item }) => item}
         keyExtractor={(item, index) => index.toString()}
       />
-
-      {/* <HorizontalScroll>
-        {topMovies.results.map((movie) => (
-          <TouchableOpacity
-            key={movie.id}
-            onPress={() => {
-              navigation.navigate("Movie", { id: movie.id });
-            }}
-          >
-            <Thumb
-              image={
-                movie.poster_path
-                  ? IMAGE_BASE_URL + POSTER_SIZE + movie.poster_path
-                  : "no image"
-              }
-            />
-          </TouchableOpacity>
-        ))}
-      </HorizontalScroll>
-      <HorizontalScroll>
-        {popularMovies.results.map((movie) => (
-          <TouchableOpacity
-            key={movie.id}
-            onPress={() => {
-              navigation.navigate("Movie", { id: movie.id });
-            }}
-          >
-            <Thumb
-              image={
-                movie.poster_path
-                  ? IMAGE_BASE_URL + POSTER_SIZE + movie.poster_path
-                  : "no image"
-              }
-            />
-          </TouchableOpacity>
-        ))}
-      </HorizontalScroll> */}
-      {/* {state.results.map((movie) => (
-        <Text key={movie.id}>{movie.original_title}</Text>
-      ))} */}
     </SafeAreaView>
   );
 }
