@@ -36,7 +36,34 @@ function MovieHome({ navigation }: RouteProps) {
           text={popularMovies.results[0].overview}
         />
       )}
-      <HorizontalScroll>
+      <HorizontalScroll
+        data={topMovies.results}
+        renderItem={({ item }) => (
+          <Thumb
+            image={
+              item.poster_path
+                ? IMAGE_BASE_URL + POSTER_SIZE + item.poster_path
+                : "no image"
+            }
+          />
+          // <TouchableOpacity
+          //   key={item.id}
+          //   onPress={() => {
+          //     navigation.navigate("Movie", { id: item.id });
+          //   }}
+          // >
+          //   <Thumb
+          //     image={
+          //       item.poster_path
+          //         ? IMAGE_BASE_URL + POSTER_SIZE + item.poster_path
+          //         : "no image"
+          //     }
+          //   />
+          // </TouchableOpacity>
+        )}
+      />
+
+      {/* <HorizontalScroll>
         {topMovies.results.map((movie) => (
           <TouchableOpacity
             key={movie.id}
@@ -71,7 +98,7 @@ function MovieHome({ navigation }: RouteProps) {
             />
           </TouchableOpacity>
         ))}
-      </HorizontalScroll>
+      </HorizontalScroll> */}
       {/* {state.results.map((movie) => (
         <Text key={movie.id}>{movie.original_title}</Text>
       ))} */}
@@ -83,6 +110,9 @@ export default MovieHome;
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+  },
+  scrollBar: {
     flex: 1,
   },
 });
