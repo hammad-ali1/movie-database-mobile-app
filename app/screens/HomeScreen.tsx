@@ -4,7 +4,6 @@ import {
   Text,
   SafeAreaView,
   Platform,
-  StatusBar,
   Button,
   TouchableOpacity,
 } from "react-native";
@@ -15,6 +14,7 @@ import { POSTER_SIZE, BACKDROP_SIZE, IMAGE_BASE_URL } from "../config/config";
 import HeroImage from "../components/HeroImage";
 import SearchBar from "../components/SearchBar";
 import Thumb from "../components/Thumb";
+import CustomStatusBar from "../components/StatusBar";
 // import Grid from "./Grid";
 // import Thumb from "./Thumb";
 // import Button from "./Button";
@@ -32,6 +32,7 @@ function MovieHome({ navigation }: RouteProps) {
 
   return (
     <SafeAreaView style={[styles.container]}>
+      <CustomStatusBar />
       <Button
         title="Go to search"
         onPress={() => navigation.navigate("Search")}

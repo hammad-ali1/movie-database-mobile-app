@@ -9,7 +9,7 @@ import colors from "./app/config/colors";
 import HomeScreen from "./app/screens/HomeScreen";
 import SearchScreen from "./app/screens/SearchScreen";
 import MovieScreen from "./app/screens/MovieScreen";
-//Types
+
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
