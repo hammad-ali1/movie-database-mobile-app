@@ -33,9 +33,8 @@ export default function SearchScreen({ navigation }: RouteProps) {
           >
             <Thumb
               image={
-                item.poster_path
-                  ? IMAGE_BASE_URL + POSTER_SIZE + item.poster_path
-                  : "no image"
+                item.poster_path &&
+                IMAGE_BASE_URL + POSTER_SIZE + item.poster_path
               }
             />
           </TouchableOpacity>
