@@ -74,9 +74,11 @@ export const useHomeFetch = (
     try {
       setError(false);
       setLoading(true);
-      let popularMovies = defaultMoviesObject();
-      let topRatedMovies = defaultMoviesObject();
-      let searchResultMovies = defaultMoviesObject();
+      let {
+        popular: popularMovies,
+        searchResults: searchResultMovies,
+        topRated: topRatedMovies,
+      } = defautState();
       if (options.popular) {
         popularMovies = await API.fetchPopularMovies(page);
       }
