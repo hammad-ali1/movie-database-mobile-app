@@ -1,6 +1,5 @@
 import { StyleSheet, Image, Text, View } from "react-native";
 import sizes from "../config/sizes";
-import NO_IMAGE from "../assets/no_image.jpg";
 
 //PropTypes
 type PropTypes = {
@@ -11,7 +10,7 @@ export default function Thumb({ image }: PropTypes) {
     <Image
       style={styles.image}
       source={{
-        uri: image ? image : NO_IMAGE,
+        uri: image ? image : require("../assets/no_image.jpg"),
       }}
       resizeMode="cover"
     />

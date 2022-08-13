@@ -24,7 +24,7 @@ export const renderHorizontalScroll = (
           <Thumb
             image={
               item.poster_path
-                ? IMAGE_BASE_URL + POSTER_SIZE + item.poster_path
+                ? `${IMAGE_BASE_URL}${POSTER_SIZE}${item.poster_path}`
                 : undefined
             }
           />

@@ -1,7 +1,7 @@
 import { StyleSheet, SafeAreaView } from "react-native";
 
 //Config
-import { POSTER_SIZE, BACKDROP_SIZE, IMAGE_BASE_URL } from "../config/config";
+import { BACKDROP_SIZE, IMAGE_BASE_URL } from "../config/config";
 //Components
 import HeroImage from "../components/HeroImage";
 import CustomStatusBar from "../components/StatusBar";
