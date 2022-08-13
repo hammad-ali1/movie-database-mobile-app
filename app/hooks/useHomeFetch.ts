@@ -42,33 +42,15 @@ export const useHomeFetch = (
   //initial render and search
   useEffect(() => {
     fetchMovies(1);
-    // if (options.search) {
-    //   if (searchTerm) {
-    //     fetchMovies(2);
-    //   } //change it later to searchMovies
-    //   return;
-    // } else {
-    //   fetchMovies(1);
-    // }
-
-    // if (options.loadOnSearch && !searchTerm) {
-    //   setState(defautState());
-    //   pageNumber.current = 0;
-    //   return;
-    // } //load only when searchTerm is specified
-    // fetchMovies(1, searchTerm);
   }, [searchTerm]);
-  // useEffect(() => {
-  //   if (!isLoadingMore) return;
-  //   // if (options.loadOnSearch && !searchTerm) {
-  //   //   setState(defautState());
-  //   //   pageNumber.current = 0;
-  //   //   return;
-  //   // }
-  //   pageNumber.current++;
-  //   fetchMovies(pageNumber.current);
-  //   setIsLoadingMore(false);
-  // }, [isLoadingMore, searchTerm]);
+
+  useEffect(() => {
+    if (!isLoadingMore) return;
+    pageNumber.current++;
+    fetchMovies(pageNumber.current);
+    setIsLoadingMore(false);
+  }, [isLoadingMore, searchTerm]);
+
   //functions
   const fetchMovies = async (page: number) => {
     try {
