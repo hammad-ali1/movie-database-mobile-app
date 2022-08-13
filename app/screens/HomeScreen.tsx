@@ -1,18 +1,10 @@
 import React, { useState, useEffect } from "react";
-import {
-  StyleSheet,
-  Text,
-  SafeAreaView,
-  Platform,
-  Button,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, Text, SafeAreaView, TouchableOpacity } from "react-native";
 
 //Config
 import { POSTER_SIZE, BACKDROP_SIZE, IMAGE_BASE_URL } from "../config/config";
 //Components
 import HeroImage from "../components/HeroImage";
-import SearchBar from "../components/SearchBar";
 import Thumb from "../components/Thumb";
 import CustomStatusBar from "../components/StatusBar";
 // import Grid from "./Grid";
@@ -33,10 +25,6 @@ function MovieHome({ navigation }: RouteProps) {
   return (
     <SafeAreaView style={[styles.container]}>
       <CustomStatusBar />
-      <Button
-        title="Go to search"
-        onPress={() => navigation.navigate("Search")}
-      />
       {!searchTerm && state.results[0] && (
         <HeroImage
           image={`${IMAGE_BASE_URL}${BACKDROP_SIZE}${state.results[0].backdrop_path}`}

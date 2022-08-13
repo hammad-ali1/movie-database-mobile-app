@@ -8,4 +8,6 @@ declare global {
     Search: undefined;
   };
   type RouteProps = NativeStackScreenProps<RootStackParamList, "Movie">;
+  type ScreenNavigationProp = RouteProps["navigation"];
+  type ScreenRouteProp = Props["route"];
 }
