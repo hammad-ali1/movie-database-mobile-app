@@ -1,11 +1,16 @@
 import { useEffect, createRef, useState, useRef } from "react";
 import { StyleSheet, TextInput, View, TextInputProps } from "react-native";
+import colors from "../config/colors";
 //Hooks
 //PropTypes
-type PropTypes = { setInputTerm: setState<string> };
+type PropTypes = {
+  backgroundColor?: string;
+  setInputTerm: setState<string>;
+};
 
 export default function CustomTextInput({
   setInputTerm,
+  backgroundColor,
   ...props
 }: PropTypes & TextInputProps) {
   //Refs
@@ -19,28 +24,26 @@ export default function CustomTextInput({
   useEffect(() => {
     if (value === "") setInputTerm(value);
   }, [value]); //if user removes all text without submitting.
+
+  //add user styles
+  const userStyles: any = {};
+  if (backgroundColor) userStyles["backgroundColor"] = backgroundColor;
   return (
-    <View style={[styles.container]}>
-      <TextInput
-        ref={input}
-        {...props}
-        style={styles.input}
-        value={value}
-        onChangeText={setValue}
-        onSubmitEditing={(event) => {
-          setInputTerm(value);
-        }}
-      />
-    </View>
+    <TextInput
+      ref={input}
+      {...props}
+      style={[styles.input, userStyles]}
+      value={value}
+      onChangeText={setValue}
+      onSubmitEditing={(event) => {
+        setInputTerm(value);
+      }}
+    />
   );
 }
-
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   input: {
-    backgroundColor: "rgba(0,0,0,0.5)",
+    backgroundColor: colors.textInput,
     height: 50,
     padding: 10,
   },

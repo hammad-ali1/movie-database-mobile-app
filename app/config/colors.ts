@@ -15,6 +15,8 @@ const colors = {
   statusBar: "#6a51ae",
   header: "#6349a8",
   headerText: "#fff",
+  //text input
+  textInput: "#efebf3c5",
 };
 
 export default colors;

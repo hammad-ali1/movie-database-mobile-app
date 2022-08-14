@@ -1,9 +1,5 @@
 import { StyleSheet, SafeAreaView } from "react-native";
-
-//Config
-import { BACKDROP_SIZE, IMAGE_BASE_URL } from "../config/config";
 //Components
-import HeroImage from "../components/HeroImage";
 import CustomStatusBar from "../components/StatusBar";
 // import Grid from "./Grid";
 // import Thumb from "./Thumb";
