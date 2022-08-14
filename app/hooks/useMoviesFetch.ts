@@ -98,11 +98,11 @@ export default function useMoviesFetch(
 
       if (options.popular) {
         popularMovies = await API.fetchPopularMovies(page);
-        // popularShows = await
+        popularShows = await API.fetchPopularShows(page);
       }
       if (options.topRated) {
         topRatedMovies = await API.fetchTopMovies(page);
-        // topRatedShows =
+        topRatedShows = await API.fetchTopShows(page);
       }
       if (options.search && searchTerm) {
         searchResultsMovies = await API.searchMovies(searchTerm, page);
@@ -110,7 +110,7 @@ export default function useMoviesFetch(
       }
       if (options.trending) {
         trendingMovies = await API.fetchTrendingMovies(options.trending);
-        // trendingShows =
+        trendingShows = await API.fetchTrendingShows(options.trending);
       }
 
       setState((prevState) => ({

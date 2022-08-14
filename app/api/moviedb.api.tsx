@@ -156,9 +156,24 @@ const apiSettings = {
     ).data;
   },
   //TV SHOWS
+  fetchPopularShows: async (page: number): Promise<Shows> => {
+    return await (
+      await axios.get(`tv/popular?page=${page}`)
+    ).data;
+  },
+  fetchTrendingShows: async (time_window: "day" | "week"): Promise<Shows> => {
+    return await (
+      await axios.get(`trending/tv/${time_window}`)
+    ).data;
+  },
+  fetchTopShows: async (page: number): Promise<Shows> => {
+    return await (
+      await axios.get(`tv/top_rated?page=${page}`)
+    ).data;
+  },
   searchShows: async (searchTerm: string, page: number): Promise<Shows> => {
     return await (
-      await axios.get(`/search/tv?query=${searchTerm}&page=${page}`)
+      await axios.get(`search/tv?query=${searchTerm}&page=${page}`)
     ).data;
   },
   // Bonus material below for login
