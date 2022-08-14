@@ -27,12 +27,20 @@ function MovieHome({ navigation }: RouteProps) {
   // const trendingShows = state.shows.trendingShows;
 
   const horintalScrolls = [
-    renderHorizontalScroll("TOP MOVIES", topMovies.results, navigation),
-    renderHorizontalScroll("POPULAR MOVIES", popularMovies.results, navigation),
+    renderHorizontalScroll("TOP MOVIES", topMovies.results, navigation, () =>
+      setLoadOptions({ topRatedMovies: true })
+    ),
+    renderHorizontalScroll(
+      "POPULAR MOVIES",
+      popularMovies.results,
+      navigation,
+      () => setLoadOptions({ popularMovies: true })
+    ),
     renderHorizontalScroll(
       "TRENDING MOVIES",
       trendingMovies.results,
-      navigation
+      navigation,
+      () => setLoadOptions({ trendingMovies: "day" })
     ),
     // renderHorizontalScroll("TOP SHOWS", topShows.results, navigation),
     // renderHorizontalScroll("POPULAR SHOWS", popularShows.results, navigation),

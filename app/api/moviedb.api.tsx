@@ -112,7 +112,7 @@ export type Show = {
 const apiSettings = {
   fetchTopMovies: async (page: number): Promise<Movies> => {
     return await (
-      await axios.get("movie/top_rated")
+      await axios.get(`movie/top_rated?page=${page}`)
     ).data;
   },
   fetchPopularMovies: async (page: number): Promise<Movies> => {
@@ -120,9 +120,12 @@ const apiSettings = {
       await axios.get(`movie/popular?page=${page}`)
     ).data;
   },
-  fetchTrendingMovies: async (time_window: "day" | "week"): Promise<Movies> => {
+  fetchTrendingMovies: async (
+    page: number,
+    time_window: "day" | "week"
+  ): Promise<Movies> => {
     return await (
-      await axios.get(`trending/movie/${time_window}`)
+      await axios.get(`trending/movie/${time_window}?page=${page}`)
     ).data;
   },
   searchMovies: async (searchTerm: string, page: number): Promise<Movies> => {

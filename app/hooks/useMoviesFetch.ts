@@ -76,46 +76,39 @@ export default function useMoviesFetch(
   };
   //Movie loaders
   async function loadPopularMovies() {
-    const newPopularMovies = await API.fetchPopularMovies(
-      popularMovies.page + 1
-    );
-    setPopularMovies(
-      updateMoviesState(newPopularMovies, popularMovies, popularMovies.page + 1)
-    );
+    const newMovies = await API.fetchPopularMovies(popularMovies.page + 1);
+    setPopularMovies((prevMovies) => ({
+      ...newMovies,
+      results: [...prevMovies.results, ...newMovies.results],
+    }));
   }
 
   async function loadTopRatedMovies() {
-    const newTopRatedMovies = await API.fetchTopMovies(topRatedMovies.page + 1);
-    setTopRatedMovies(
-      updateMoviesState(
-        newTopRatedMovies,
-        topRatedMovies,
-        topRatedMovies.page + 1
-      )
-    );
+    const newMovies = await API.fetchTopMovies(topRatedMovies.page + 1);
+    setTopRatedMovies((prevMovies) => ({
+      ...newMovies,
+      results: [...prevMovies.results, ...newMovies.results],
+    }));
   }
   async function loadSearchResultsMovies(searchTerm: string) {
-    const newSearchResultsMovies = await API.searchMovies(
+    const newMovies = await API.searchMovies(
       searchTerm,
       searchResultsMovies.page + 1
     );
-    setSearchResultsMovies(
-      updateMoviesState(
-        newSearchResultsMovies,
-        searchResultsMovies,
-        searchResultsMovies.page + 1
-      )
-    );
+    setSearchResultsMovies((prevMovies) => ({
+      ...newMovies,
+      results: [...prevMovies.results, ...newMovies.results],
+    }));
   }
   async function loadTrendingMovies(time_limit: "day" | "week") {
-    const newTrendingMovies = await API.fetchTrendingMovies(time_limit);
-    setTrendingMovies(
-      updateMoviesState(
-        newTrendingMovies,
-        trendingMovies,
-        trendingMovies.page + 1
-      )
+    const newMovies = await API.fetchTrendingMovies(
+      trendingMovies.page + 1,
+      time_limit
     );
+    setTrendingMovies((prevMovies) => ({
+      ...newMovies,
+      results: [...prevMovies.results, ...newMovies.results],
+    }));
   }
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -133,9 +126,6 @@ export default function useMoviesFetch(
   //   options.topRatedMovies = false;
   //   options.trendingMovies = null;
   // }
-  function updateOptions(newOptions: FetchParams) {
-    options = newOptions;
-  }
 
   useEffect(() => {
     fetchState(options); //fetch with initial option configuration
