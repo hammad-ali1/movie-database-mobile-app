@@ -11,14 +11,6 @@ function defaultMoviesObject(): Movies {
     total_results: 0,
   };
 }
-function defaultMovieState() {
-  return {
-    popularMovies: defaultMoviesObject(),
-    topRatedMovies: defaultMoviesObject(),
-    searchResultsMovies: defaultMoviesObject(),
-    trendingMovies: defaultMoviesObject(),
-  };
-}
 
 //Shows
 function defaultShowsObject(): Shows {
@@ -29,23 +21,8 @@ function defaultShowsObject(): Shows {
     total_results: 0,
   };
 }
-function defautShowsState() {
-  return {
-    popularShows: defaultShowsObject(),
-    topRatedShows: defaultShowsObject(),
-    searchResultsShows: defaultShowsObject(),
-    trendingShows: defaultShowsObject(),
-  };
-}
 
-//defualtState
-function defaultState() {
-  return {
-    movies: defaultMovieState(),
-    shows: defautShowsState(),
-  };
-}
-type FetchParams = {
+type OptionsType = {
   searchMovies?: boolean;
   popularMovies?: boolean;
   topRatedMovies?: boolean;
@@ -53,7 +30,7 @@ type FetchParams = {
 };
 
 export default function useMoviesFetch(
-  options: FetchParams = {
+  options: OptionsType = {
     searchMovies: false,
     popularMovies: true,
     topRatedMovies: true,
@@ -107,7 +84,7 @@ export default function useMoviesFetch(
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const [loadOptions, setLoadOptions] = useState<FetchParams>({});
+  const [loadOptions, setLoadOptions] = useState<OptionsType>({});
   //private ref
   // const pageNumber = useRef(1);
   //effects
@@ -131,7 +108,7 @@ export default function useMoviesFetch(
   }, [loadOptions, searchTerm]);
 
   //functions
-  const fetchState = async (options: FetchParams) => {
+  const fetchState = async (options: OptionsType) => {
     try {
       setError(false);
       setLoading(true);
