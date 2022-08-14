@@ -39,6 +39,7 @@ function MovieHome({ navigation }: RouteProps) {
       <CustomStatusBar />
 
       <VerticalScroll
+        linearGradinet
         data={horintalScrolls}
         margin={20}
         renderItem={({ item }) => item}
