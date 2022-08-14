@@ -7,19 +7,21 @@ import VerticalScroll from "../components/VerticalScroll";
 import { renderHorizontalScroll } from "../helpers/renderers";
 
 export default function SearchScreen({ navigation }: RouteProps) {
-  const { state, loading, error, setSearchTerm, searchTerm, setIsLoadingMore } =
-    useMoviesFetch({ search: true });
+  const { state, loading, error, setSearchTerm, searchTerm, setLoadOptions } =
+    useMoviesFetch({ searchMovies: true, searchShows: true });
   const { movies, shows } = state;
   const horizontalScrolls = [
     renderHorizontalScroll(
       "MOVIES",
       movies.searchResultsMovies.results,
-      navigation
+      navigation,
+      () => setLoadOptions({ searchMovies: true })
     ),
     renderHorizontalScroll(
       "SHOWS",
       shows.searchResultsShows.results,
-      navigation
+      navigation,
+      () => setLoadOptions({ searchShows: true })
     ),
   ];
   return (
