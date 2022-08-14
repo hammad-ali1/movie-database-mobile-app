@@ -9,7 +9,7 @@ import { renderHorizontalScroll } from "../helpers/renderers";
 
 function MovieHome({ navigation }: RouteProps) {
   const { state, loading, error, setLoadOptions } = useMoviesFetch();
-
+  //movies
   const popularMovies = state.movies.popularMovies;
   const topMovies = state.movies.topRatedMovies;
   const trendingMovies = state.movies.trendingMovies;
@@ -19,42 +19,48 @@ function MovieHome({ navigation }: RouteProps) {
   const trendingShows = state.shows.trendingShows;
 
   const horintalScrolls = [
-    renderHorizontalScroll(
-      "TOP RATED MOVIES",
-      topMovies.results,
+    renderHorizontalScroll({
+      title: "TOP RATED MOVIES",
+      items: topMovies.results,
       navigation,
-      () => setLoadOptions({ topRatedMovies: true })
-    ),
-    renderHorizontalScroll(
-      "POPULAR MOVIES",
-      popularMovies.results,
+      showButton: true,
+      onPress: () => setLoadOptions({ topRatedMovies: true }),
+    }),
+    renderHorizontalScroll({
+      title: "POPULAR MOVIES",
+      items: popularMovies.results,
       navigation,
-      () => setLoadOptions({ popularMovies: true })
-    ),
-    renderHorizontalScroll(
-      "TRENDING MOVIES",
-      trendingMovies.results,
+      showButton: true,
+      onPress: () => setLoadOptions({ popularMovies: true }),
+    }),
+    renderHorizontalScroll({
+      title: "TRENDING MOVIES",
+      items: trendingMovies.results,
       navigation,
-      () => setLoadOptions({ trendingMovies: "day" })
-    ),
-    renderHorizontalScroll(
-      "TOP RATED SHOWS",
-      topShows.results,
+      showButton: true,
+      onPress: () => setLoadOptions({ trendingMovies: "day" }),
+    }),
+    renderHorizontalScroll({
+      title: "TOP RATED SHOWS",
+      items: topShows.results,
       navigation,
-      () => setLoadOptions({ topRatedShows: true })
-    ),
-    renderHorizontalScroll(
-      "POPULAR SHOWS",
-      popularShows.results,
+      showButton: true,
+      onPress: () => setLoadOptions({ topRatedShows: true }),
+    }),
+    renderHorizontalScroll({
+      title: "POPULAR SHOWS",
+      items: popularShows.results,
       navigation,
-      () => setLoadOptions({ popularShows: true })
-    ),
-    renderHorizontalScroll(
-      "TRENDING SHOWS",
-      trendingShows.results,
+      showButton: true,
+      onPress: () => setLoadOptions({ popularShows: true }),
+    }),
+    renderHorizontalScroll({
+      title: "TRENDING SHOWS",
+      items: trendingShows.results,
       navigation,
-      () => setLoadOptions({ trendingShows: "day" })
-    ),
+      showButton: true,
+      onPress: () => setLoadOptions({ trendingShows: "day" }),
+    }),
   ];
   return (
     <SafeAreaView style={[styles.container]}>

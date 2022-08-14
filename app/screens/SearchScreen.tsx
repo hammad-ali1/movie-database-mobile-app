@@ -10,19 +10,25 @@ export default function SearchScreen({ navigation }: RouteProps) {
   const { state, loading, error, setSearchTerm, searchTerm, setLoadOptions } =
     useMoviesFetch({ searchMovies: true, searchShows: true });
   const { movies, shows } = state;
+
   const horizontalScrolls = [
-    renderHorizontalScroll(
-      "MOVIES",
-      movies.searchResultsMovies.results,
+    renderHorizontalScroll({
+      title: "MOVIES",
+      items: movies.searchResultsMovies.results,
       navigation,
-      () => setLoadOptions({ searchMovies: true })
-    ),
-    renderHorizontalScroll(
-      "SHOWS",
-      shows.searchResultsShows.results,
+      onPress: () => setLoadOptions({ searchMovies: true }),
+      showButton:
+        movies.searchResultsMovies.page !==
+        movies.searchResultsMovies.total_pages,
+    }),
+    renderHorizontalScroll({
+      title: "SHOWS",
+      items: shows.searchResultsShows.results,
       navigation,
-      () => setLoadOptions({ searchShows: true })
-    ),
+      showButton:
+        shows.searchResultsShows.page !== shows.searchResultsShows.total_pages,
+      onPress: () => setLoadOptions({ searchShows: true }),
+    }),
   ];
   return (
     <View style={[styles.container]}>
