@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    color: colors.scrollBarTitle,
+    color: colors.verticalScrollTitle,
     fontSize: 20,
     fontWeight: "bold",
     padding: 5,

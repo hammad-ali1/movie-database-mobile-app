@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   title: {
-    color: colors.scrollBarTitle,
+    color: colors.horizontalScollTitle,
     fontSize: 20,
     fontWeight: "bold",
     padding: 5,
