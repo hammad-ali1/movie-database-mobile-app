@@ -36,6 +36,7 @@ export default function VerticalScroll({
 const styles = StyleSheet.create({
   listContainer: {
     flex: 1,
+    backgroundColor: colors.verticalScrollContainer,
   },
   title: {
     color: colors.scrollBarTitle,

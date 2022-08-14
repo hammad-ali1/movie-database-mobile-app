@@ -37,15 +37,8 @@ function MovieHome({ navigation }: RouteProps) {
   return (
     <SafeAreaView style={[styles.container]}>
       <CustomStatusBar />
-      {popularMovies.results[0] && (
-        <HeroImage
-          image={`${IMAGE_BASE_URL}${BACKDROP_SIZE}${popularMovies.results[0].backdrop_path}`}
-          title={popularMovies.results[0].original_title}
-          text={popularMovies.results[0].overview}
-        />
-      )}
+
       <VerticalScroll
-        title="MOVIES"
         data={horintalScrolls}
         margin={20}
         renderItem={({ item }) => item}
