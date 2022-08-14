@@ -11,7 +11,7 @@ export default function SearchScreen({ navigation }: RouteProps) {
     useMoviesFetch({ search: true });
   const { searchResults } = state;
   const horizontalScrolls = [
-    renderHorizontalScroll("RESULTS", searchResults.results, navigation),
+    renderHorizontalScroll("MOVIES", searchResults.results, navigation),
   ];
   return (
     <View style={[styles.container]}>

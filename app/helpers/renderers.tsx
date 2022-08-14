@@ -9,6 +9,7 @@ export const renderHorizontalScroll = (
   movies: Movie[],
   navigation: ScreenNavigationProp
 ) => {
+  if (movies.length === 0) return <></>;
   return (
     <HorizontalScroll
       title={title}
