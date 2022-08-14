@@ -1,9 +1,6 @@
 import { StyleSheet, SafeAreaView } from "react-native";
 //Components
 import CustomStatusBar from "../components/StatusBar";
-// import Grid from "./Grid";
-// import Thumb from "./Thumb";
-// import Button from "./Button";
 //Hooks
 import useMoviesFetch from "../hooks/useMoviesFetch";
 import VerticalScroll from "../components/VerticalScroll";
@@ -11,24 +8,22 @@ import VerticalScroll from "../components/VerticalScroll";
 import { renderHorizontalScroll } from "../helpers/renderers";
 
 function MovieHome({ navigation }: RouteProps) {
-  const { state, loading, error, setLoadOptions } = useMoviesFetch({
-    searchMovies: false,
-    popularMovies: true,
-    topRatedMovies: true,
-    trendingMovies: "week",
-  });
+  const { state, loading, error, setLoadOptions } = useMoviesFetch();
 
   const popularMovies = state.movies.popularMovies;
   const topMovies = state.movies.topRatedMovies;
   const trendingMovies = state.movies.trendingMovies;
   //shows
-  // const popularShows = state.shows.popularShows;
-  // const topShows = state.shows.topRatedShows;
-  // const trendingShows = state.shows.trendingShows;
+  const popularShows = state.shows.popularShows;
+  const topShows = state.shows.topRatedShows;
+  const trendingShows = state.shows.trendingShows;
 
   const horintalScrolls = [
-    renderHorizontalScroll("TOP MOVIES", topMovies.results, navigation, () =>
-      setLoadOptions({ topRatedMovies: true })
+    renderHorizontalScroll(
+      "TOP RATED MOVIES",
+      topMovies.results,
+      navigation,
+      () => setLoadOptions({ topRatedMovies: true })
     ),
     renderHorizontalScroll(
       "POPULAR MOVIES",
@@ -42,9 +37,24 @@ function MovieHome({ navigation }: RouteProps) {
       navigation,
       () => setLoadOptions({ trendingMovies: "day" })
     ),
-    // renderHorizontalScroll("TOP SHOWS", topShows.results, navigation),
-    // renderHorizontalScroll("POPULAR SHOWS", popularShows.results, navigation),
-    // renderHorizontalScroll("TRENDING SHOWS", trendingShows.results, navigation),
+    renderHorizontalScroll(
+      "TOP RATED SHOWS",
+      topShows.results,
+      navigation,
+      () => setLoadOptions({ topRatedShows: true })
+    ),
+    renderHorizontalScroll(
+      "POPULAR SHOWS",
+      popularShows.results,
+      navigation,
+      () => setLoadOptions({ popularShows: true })
+    ),
+    renderHorizontalScroll(
+      "TRENDING SHOWS",
+      trendingShows.results,
+      navigation,
+      () => setLoadOptions({ trendingShows: "day" })
+    ),
   ];
   return (
     <SafeAreaView style={[styles.container]}>

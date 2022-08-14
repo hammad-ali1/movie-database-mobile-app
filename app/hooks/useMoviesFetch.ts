@@ -27,6 +27,10 @@ type OptionsType = {
   popularMovies?: boolean;
   topRatedMovies?: boolean;
   trendingMovies?: "day" | "week" | null;
+  searchShows?: boolean;
+  popularShows?: boolean;
+  topRatedShows?: boolean;
+  trendingShows?: "day" | "week" | null;
 };
 
 export default function useMoviesFetch(
@@ -35,31 +39,41 @@ export default function useMoviesFetch(
     popularMovies: true,
     topRatedMovies: true,
     trendingMovies: "day",
+    searchShows: false,
+    popularShows: true,
+    topRatedShows: true,
+    trendingShows: "day",
   }
 ) {
   //states
-  //movies
+
   const [popularMovies, setPopularMovies] = useState(defaultMoviesObject());
   const [topRatedMovies, setTopRatedMovies] = useState(defaultMoviesObject());
   const [searchResultsMovies, setSearchResultsMovies] = useState(
     defaultMoviesObject()
   );
   const [trendingMovies, setTrendingMovies] = useState(defaultMoviesObject());
+  const [popularShows, setPopularShows] = useState(defaultShowsObject());
+  const [topRatedShows, setTopRatedShows] = useState(defaultShowsObject());
+  const [searchResultsShows, setSearchResultsShows] = useState(
+    defaultShowsObject()
+  );
+  const [trendingShows, setTrendingShows] = useState(defaultShowsObject());
+  //state loaders
   const loadMore = {
     loadPopularMovies,
     loadTopRatedMovies,
     loadSearchResultsMovies,
     loadTrendingMovies,
+    loadPopularShows,
+    loadTopRatedShows,
+    loadSearchResultsShows,
+    loadTrendingShows,
   };
-  //Movie loaders
   async function loadPopularMovies() {
     const newMovies = await API.fetchPopularMovies(popularMovies.page + 1);
 
     setPopularMovies((prevMovies) => setter(prevMovies, newMovies));
-    // setPopularMovies((prevMovies) => ({
-    //   ...newMovies,
-    //   results: [...prevMovies.results, ...newMovies.results],
-    // }));
   }
 
   async function loadTopRatedMovies() {
@@ -81,21 +95,35 @@ export default function useMoviesFetch(
     setTrendingMovies((prevMovies) => setter(prevMovies, newMovies));
   }
 
+  async function loadPopularShows() {
+    const newShows = await API.fetchPopularShows(popularShows.page + 1);
+    setPopularShows((prevShows) => setter(prevShows, newShows));
+  }
+
+  async function loadTopRatedShows() {
+    const newShows = await API.fetchTopShows(topRatedShows.page + 1);
+    setTopRatedShows((prevShows) => setter(prevShows, newShows));
+  }
+  async function loadSearchResultsShows(searchTerm: string) {
+    const newShows = await API.searchShows(
+      searchTerm,
+      searchResultsShows.page + 1
+    );
+    setSearchResultsShows((prevShows) => setter(prevShows, newShows));
+  }
+  async function loadTrendingShows(time_limit: "day" | "week") {
+    const newShows = await API.fetchTrendingShows(
+      trendingShows.page + 1,
+      time_limit
+    );
+    setTrendingShows((prevShows) => setter(prevShows, newShows));
+  }
+
+  //other states
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [loadOptions, setLoadOptions] = useState<OptionsType>({});
-  //private ref
-  // const pageNumber = useRef(1);
-  //effects
-  //initial render and search
-
-  // function resetOptions() {
-  //   options.popularMovies = false;
-  //   options.searchMovies = false;
-  //   options.topRatedMovies = false;
-  //   options.trendingMovies = null;
-  // }
 
   useEffect(() => {
     fetchState(options); //fetch with initial option configuration
@@ -115,92 +143,28 @@ export default function useMoviesFetch(
 
       if (options.popularMovies) {
         loadMore.loadPopularMovies();
-        // popularShows = await API.fetchPopularShows(page);
+      }
+      if (options.popularShows) {
+        loadMore.loadPopularShows();
       }
       if (options.topRatedMovies) {
         loadMore.loadTopRatedMovies();
-        // topRatedShows = await API.fetchTopShows(page);
+      }
+      if (options.topRatedShows) {
+        loadMore.loadTopRatedShows();
       }
       if (options.searchMovies && searchTerm) {
         loadMore.loadSearchResultsMovies(searchTerm);
-        // searchResultsShows = await API.searchShows(searchTerm, page);
+      }
+      if (options.searchShows && searchTerm) {
+        loadMore.loadSearchResultsShows(searchTerm);
       }
       if (options.trendingMovies) {
         loadMore.loadTrendingMovies(options.trendingMovies);
-        // trendingShows = await API.fetchTrendingShows(options.trending);
       }
-
-      /*
-      setState((prevState) => ({
-        movies: {
-          popularMovies: updateMoviesState(
-            popularMovies,
-            prevState.movies.popularMovies,
-            page
-          ),
-          topRatedMovies: updateMoviesState(
-            topRatedMovies,
-            prevState.movies.topRatedMovies,
-            page
-          ),
-          searchResultsMovies: updateMoviesState(
-            searchResultsMovies,
-            prevState.movies.searchResultsMovies,
-            page
-          ),
-          trendingMovies: { ...trendingMovies },
-        },
-        shows: {
-          popularShows: updateShowsState(
-            popularShows,
-            prevState.shows.popularShows,
-            page
-          ),
-          topRatedShows: updateShowsState(
-            topRatedShows,
-            prevState.shows.topRatedShows,
-            page
-          ),
-          searchResultsShows: updateShowsState(
-            searchResultsShows,
-            prevState.shows.searchResultsShows,
-            page
-          ),
-          trendingShows: { ...trendingShows },
-        },
-
-
-        /*
-        popular: {
-          ...popularMovies,
-          results:
-            page > 1
-              ? [...prevState.popular.results, ...popularMovies.results]
-              : [...popularMovies.results],
-        },
-        topRated: {
-          ...topRatedMovies,
-
-          results:
-            page > 1
-              ? [...prevState.topRated.results, ...topRatedMovies.results]
-              : [...topRatedMovies.results],
-        },
-        searchResults: {
-          ...searchResultMovies,
-          results:
-            page > 1
-              ? [
-                  ...prevState.searchResults.results,
-                  ...searchResultMovies.results,
-                ]
-              : [...searchResultMovies.results],
-        },
-        trendingMovies: { ...trendingMovies },
-
-      }));
-      
-      */
+      if (options.trendingShows) {
+        loadMore.loadTrendingShows(options.trendingShows);
+      }
     } catch (err) {
       setError(true);
     }
@@ -213,6 +177,12 @@ export default function useMoviesFetch(
       topRatedMovies,
       searchResultsMovies,
       trendingMovies,
+    },
+    shows: {
+      popularShows,
+      topRatedShows,
+      searchResultsShows,
+      trendingShows,
     },
   };
   //return states

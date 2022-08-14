@@ -164,9 +164,12 @@ const apiSettings = {
       await axios.get(`tv/popular?page=${page}`)
     ).data;
   },
-  fetchTrendingShows: async (time_window: "day" | "week"): Promise<Shows> => {
+  fetchTrendingShows: async (
+    page: number,
+    time_window: "day" | "week"
+  ): Promise<Shows> => {
     return await (
-      await axios.get(`trending/tv/${time_window}`)
+      await axios.get(`trending/tv/${time_window}?page=${page}`)
     ).data;
   },
   fetchTopShows: async (page: number): Promise<Shows> => {
