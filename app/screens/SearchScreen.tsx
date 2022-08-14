@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity, Button } from "react-native";
+import { StyleSheet, View, Alert } from "react-native";
 import CustomTextInput from "../components/TextInput";
 import useMoviesFetch from "../hooks/useMoviesFetch";
 import VerticalScroll from "../components/VerticalScroll";
@@ -30,6 +30,9 @@ export default function SearchScreen({ navigation }: RouteProps) {
       onPress: () => setLoadOptions({ searchShows: true }),
     }),
   ];
+  if (error) {
+    Alert.alert("Error ocurred while trying to fetch results");
+  }
   return (
     <View style={[styles.container]}>
       <CustomTextInput

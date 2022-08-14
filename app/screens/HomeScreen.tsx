@@ -1,4 +1,4 @@
-import { StyleSheet, SafeAreaView } from "react-native";
+import { StyleSheet, SafeAreaView, Alert } from "react-native";
 //Components
 import CustomStatusBar from "../components/StatusBar";
 //Hooks
@@ -8,7 +8,7 @@ import VerticalScroll from "../components/VerticalScroll";
 import { renderHorizontalScroll } from "../helpers/renderers";
 
 function MovieHome({ navigation }: RouteProps) {
-  const { state, loading, error, setLoadOptions } = useMoviesFetch();
+  const { state, error, setLoadOptions } = useMoviesFetch();
   //movies
   const popularMovies = state.movies.popularMovies;
   const topMovies = state.movies.topRatedMovies;
@@ -62,6 +62,9 @@ function MovieHome({ navigation }: RouteProps) {
       onPress: () => setLoadOptions({ trendingShows: "day" }),
     }),
   ];
+  if (error) {
+    Alert.alert("Error ocurred while trying to fetch results");
+  }
   return (
     <SafeAreaView style={[styles.container]}>
       <CustomStatusBar />
