@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 //API
 import API, { Movie, Movies } from "../api/moviedb.api";
 
+//Movies
 function defaultMoviesObject(): Movies {
   return {
     page: 0,
@@ -10,7 +11,7 @@ function defaultMoviesObject(): Movies {
     total_results: 0,
   };
 }
-function defautState() {
+function defaultMovieState() {
   return {
     popular: defaultMoviesObject(),
     topRated: defaultMoviesObject(),
@@ -18,6 +19,8 @@ function defautState() {
     trendingMovies: defaultMoviesObject(),
   };
 }
+
+//
 
 type HomeFetchParams = {
   search?: boolean;
@@ -35,7 +38,7 @@ export default function useMoviesFetch(
 ) {
   //states
   const [searchTerm, setSearchTerm] = useState("");
-  const [state, setState] = useState(defautState());
+  const [state, setState] = useState(defaultMovieState());
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
@@ -64,7 +67,7 @@ export default function useMoviesFetch(
         searchResults: searchResultMovies,
         topRated: topRatedMovies,
         trendingMovies,
-      } = defautState();
+      } = defaultMovieState();
       if (options.popular) {
         popularMovies = await API.fetchPopularMovies(page);
       }
