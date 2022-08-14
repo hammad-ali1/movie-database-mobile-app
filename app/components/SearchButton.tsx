@@ -18,7 +18,7 @@ export default function ({
         style={{ alignSelf: "flex-end" }}
         name="search"
         size={24}
-        color="black"
+        color="white"
       />
     </TouchableOpacity>
   );
