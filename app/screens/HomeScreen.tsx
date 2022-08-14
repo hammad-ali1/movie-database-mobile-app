@@ -11,19 +11,20 @@ import VerticalScroll from "../components/VerticalScroll";
 import { renderHorizontalScroll } from "../helpers/renderers";
 
 function MovieHome({ navigation }: RouteProps) {
-  const { state, loading, error, setIsLoadingMore } = useMoviesFetch({
-    search: false,
-    topRated: true,
-    popular: true,
-    trending: "week",
+  const { state, loading, error, setLoadOptions } = useMoviesFetch({
+    searchMovies: false,
+    popularMovies: true,
+    topRatedMovies: true,
+    trendingMovies: "week",
   });
+
   const popularMovies = state.movies.popularMovies;
   const topMovies = state.movies.topRatedMovies;
   const trendingMovies = state.movies.trendingMovies;
   //shows
-  const popularShows = state.shows.popularShows;
-  const topShows = state.shows.topRatedShows;
-  const trendingShows = state.shows.trendingShows;
+  // const popularShows = state.shows.popularShows;
+  // const topShows = state.shows.topRatedShows;
+  // const trendingShows = state.shows.trendingShows;
 
   const horintalScrolls = [
     renderHorizontalScroll("TOP MOVIES", topMovies.results, navigation),
@@ -33,9 +34,9 @@ function MovieHome({ navigation }: RouteProps) {
       trendingMovies.results,
       navigation
     ),
-    renderHorizontalScroll("TOP SHOWS", topShows.results, navigation),
-    renderHorizontalScroll("POPULAR SHOWS", popularShows.results, navigation),
-    renderHorizontalScroll("TRENDING SHOWS", trendingShows.results, navigation),
+    // renderHorizontalScroll("TOP SHOWS", topShows.results, navigation),
+    // renderHorizontalScroll("POPULAR SHOWS", popularShows.results, navigation),
+    // renderHorizontalScroll("TRENDING SHOWS", trendingShows.results, navigation),
   ];
   return (
     <SafeAreaView style={[styles.container]}>

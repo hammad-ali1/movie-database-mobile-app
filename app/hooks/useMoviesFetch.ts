@@ -46,73 +46,131 @@ function defaultState() {
   };
 }
 type FetchParams = {
-  search?: boolean;
-  popular?: boolean;
-  topRated?: boolean;
-  trending?: "day" | "week" | null;
+  searchMovies?: boolean;
+  popularMovies?: boolean;
+  topRatedMovies?: boolean;
+  trendingMovies?: "day" | "week" | null;
 };
+
 export default function useMoviesFetch(
   options: FetchParams = {
-    search: false,
-    popular: true,
-    topRated: false,
-    trending: null,
+    searchMovies: false,
+    popularMovies: true,
+    topRatedMovies: true,
+    trendingMovies: "day",
   }
 ) {
   //states
+  //movies
+  const [popularMovies, setPopularMovies] = useState(defaultMoviesObject());
+  const [topRatedMovies, setTopRatedMovies] = useState(defaultMoviesObject());
+  const [searchResultsMovies, setSearchResultsMovies] = useState(
+    defaultMoviesObject()
+  );
+  const [trendingMovies, setTrendingMovies] = useState(defaultMoviesObject());
+  const loadMore = {
+    loadPopularMovies,
+    loadTopRatedMovies,
+    loadSearchResultsMovies,
+    loadTrendingMovies,
+  };
+  //Movie loaders
+  async function loadPopularMovies() {
+    const newPopularMovies = await API.fetchPopularMovies(
+      popularMovies.page + 1
+    );
+    setPopularMovies(
+      updateMoviesState(newPopularMovies, popularMovies, popularMovies.page + 1)
+    );
+  }
+
+  async function loadTopRatedMovies() {
+    const newTopRatedMovies = await API.fetchTopMovies(topRatedMovies.page + 1);
+    setTopRatedMovies(
+      updateMoviesState(
+        newTopRatedMovies,
+        topRatedMovies,
+        topRatedMovies.page + 1
+      )
+    );
+  }
+  async function loadSearchResultsMovies(searchTerm: string) {
+    const newSearchResultsMovies = await API.searchMovies(
+      searchTerm,
+      searchResultsMovies.page + 1
+    );
+    setSearchResultsMovies(
+      updateMoviesState(
+        newSearchResultsMovies,
+        searchResultsMovies,
+        searchResultsMovies.page + 1
+      )
+    );
+  }
+  async function loadTrendingMovies(time_limit: "day" | "week") {
+    const newTrendingMovies = await API.fetchTrendingMovies(time_limit);
+    setTrendingMovies(
+      updateMoviesState(
+        newTrendingMovies,
+        trendingMovies,
+        trendingMovies.page + 1
+      )
+    );
+  }
+
   const [searchTerm, setSearchTerm] = useState("");
-  const [state, setState] = useState(defaultState());
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [loadOptions, setLoadOptions] = useState<FetchParams>({});
   //private ref
-  const pageNumber = useRef(1);
+  // const pageNumber = useRef(1);
   //effects
   //initial render and search
+
+  // function resetOptions() {
+  //   options.popularMovies = false;
+  //   options.searchMovies = false;
+  //   options.topRatedMovies = false;
+  //   options.trendingMovies = null;
+  // }
+  function updateOptions(newOptions: FetchParams) {
+    options = newOptions;
+  }
+
   useEffect(() => {
-    fetchMovies(1);
+    fetchState(options); //fetch with initial option configuration
   }, [searchTerm]);
 
   useEffect(() => {
-    if (!isLoadingMore) return;
-    pageNumber.current++;
-    fetchMovies(pageNumber.current);
-    setIsLoadingMore(false);
-  }, [isLoadingMore, searchTerm]);
+    if (Object.keys(loadOptions).length === 0) return; //if nothing to load then return
+    fetchState(loadOptions);
+    setLoadOptions({});
+  }, [loadOptions, searchTerm]);
 
   //functions
-  const fetchMovies = async (page: number) => {
+  const fetchState = async (options: FetchParams) => {
     try {
       setError(false);
       setLoading(true);
-      let { shows, movies } = defaultState();
-      let {
-        popularMovies,
-        searchResultsMovies,
-        topRatedMovies,
-        trendingMovies,
-      } = movies;
 
-      let { popularShows, topRatedShows, searchResultsShows, trendingShows } =
-        shows;
-
-      if (options.popular) {
-        popularMovies = await API.fetchPopularMovies(page);
-        popularShows = await API.fetchPopularShows(page);
+      if (options.popularMovies) {
+        loadMore.loadPopularMovies();
+        // popularShows = await API.fetchPopularShows(page);
       }
-      if (options.topRated) {
-        topRatedMovies = await API.fetchTopMovies(page);
-        topRatedShows = await API.fetchTopShows(page);
+      if (options.topRatedMovies) {
+        loadMore.loadTopRatedMovies();
+        // topRatedShows = await API.fetchTopShows(page);
       }
-      if (options.search && searchTerm) {
-        searchResultsMovies = await API.searchMovies(searchTerm, page);
-        searchResultsShows = await API.searchShows(searchTerm, page);
+      if (options.searchMovies && searchTerm) {
+        loadMore.loadSearchResultsMovies(searchTerm);
+        // searchResultsShows = await API.searchShows(searchTerm, page);
       }
-      if (options.trending) {
-        trendingMovies = await API.fetchTrendingMovies(options.trending);
-        trendingShows = await API.fetchTrendingShows(options.trending);
+      if (options.trendingMovies) {
+        loadMore.loadTrendingMovies(options.trendingMovies);
+        // trendingShows = await API.fetchTrendingShows(options.trending);
       }
 
+      /*
       setState((prevState) => ({
         movies: {
           popularMovies: updateMoviesState(
@@ -150,6 +208,8 @@ export default function useMoviesFetch(
           ),
           trendingShows: { ...trendingShows },
         },
+
+
         /*
         popular: {
           ...popularMovies,
@@ -178,16 +238,25 @@ export default function useMoviesFetch(
         },
         trendingMovies: { ...trendingMovies },
 
-        */
       }));
+      
+      */
     } catch (err) {
       setError(true);
     }
     setLoading(false);
   };
 
+  const state = {
+    movies: {
+      popularMovies,
+      topRatedMovies,
+      searchResultsMovies,
+      trendingMovies,
+    },
+  };
   //return states
-  return { state, loading, error, setSearchTerm, searchTerm, setIsLoadingMore };
+  return { state, loading, error, setSearchTerm, searchTerm, setLoadOptions };
 }
 
 function updateMoviesState(
