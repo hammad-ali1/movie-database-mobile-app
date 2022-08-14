@@ -3,17 +3,20 @@ import { Movie, Show } from "../api/moviedb.api";
 import { TouchableOpacity } from "react-native";
 import { POSTER_SIZE, IMAGE_BASE_URL } from "../config/config";
 import Thumb from "../components/Thumb";
+import LoadMoreButton from "../components/LoadMoreListButton";
 
 export const renderHorizontalScroll = (
   title: string,
   items: Movie[] | Show[],
-  navigation: ScreenNavigationProp
+  navigation: ScreenNavigationProp,
+  onPress?: onPressHandler
 ) => {
   if (items?.length === 0) return <></>;
   return (
     <HorizontalScroll
       title={title}
       data={items}
+      ListFooterComponent={() => <LoadMoreButton onPress={onPress} />}
       renderItem={({ item }) => (
         <TouchableOpacity
           style={{ flexDirection: "row" }}
