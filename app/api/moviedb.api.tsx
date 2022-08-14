@@ -88,6 +88,27 @@ export type Videos = {
   results: Video[];
 };
 
+//TV Shows
+export type Shows = {
+  page: number;
+  results: Show[];
+  total_pages: number;
+  total_results: number;
+};
+export type Show = {
+  backdrop_path: string | null;
+  poster_path: string | null;
+  id: number;
+  vote_average: number;
+  overview: string;
+  name: string;
+  original_name: string;
+  original_language: string;
+  popularity: number;
+  vote_count: number;
+  first_air_date: string;
+};
+
 const apiSettings = {
   fetchTopMovies: async (page: number): Promise<Movies> => {
     return await (
@@ -132,6 +153,12 @@ const apiSettings = {
   fetchCredits: async (movieId: number): Promise<Credits> => {
     return await (
       await axios.get(`movie/${movieId}/credits`)
+    ).data;
+  },
+  //TV SHOWS
+  searchShows: async (searchTerm: string, page: number): Promise<Shows> => {
+    return await (
+      await axios.get(`/search/tv?query=${searchTerm}&page=${page}`)
     ).data;
   },
   // Bonus material below for login
