@@ -77,38 +77,31 @@ export default function useMoviesFetch(
   //Movie loaders
   async function loadPopularMovies() {
     const newMovies = await API.fetchPopularMovies(popularMovies.page + 1);
-    setPopularMovies((prevMovies) => ({
-      ...newMovies,
-      results: [...prevMovies.results, ...newMovies.results],
-    }));
+
+    setPopularMovies((prevMovies) => setter(prevMovies, newMovies));
+    // setPopularMovies((prevMovies) => ({
+    //   ...newMovies,
+    //   results: [...prevMovies.results, ...newMovies.results],
+    // }));
   }
 
   async function loadTopRatedMovies() {
     const newMovies = await API.fetchTopMovies(topRatedMovies.page + 1);
-    setTopRatedMovies((prevMovies) => ({
-      ...newMovies,
-      results: [...prevMovies.results, ...newMovies.results],
-    }));
+    setTopRatedMovies((prevMovies) => setter(prevMovies, newMovies));
   }
   async function loadSearchResultsMovies(searchTerm: string) {
     const newMovies = await API.searchMovies(
       searchTerm,
       searchResultsMovies.page + 1
     );
-    setSearchResultsMovies((prevMovies) => ({
-      ...newMovies,
-      results: [...prevMovies.results, ...newMovies.results],
-    }));
+    setSearchResultsMovies((prevMovies) => setter(prevMovies, newMovies));
   }
   async function loadTrendingMovies(time_limit: "day" | "week") {
     const newMovies = await API.fetchTrendingMovies(
       trendingMovies.page + 1,
       time_limit
     );
-    setTrendingMovies((prevMovies) => ({
-      ...newMovies,
-      results: [...prevMovies.results, ...newMovies.results],
-    }));
+    setTrendingMovies((prevMovies) => setter(prevMovies, newMovies));
   }
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -249,30 +242,9 @@ export default function useMoviesFetch(
   return { state, loading, error, setSearchTerm, searchTerm, setLoadOptions };
 }
 
-function updateMoviesState(
-  newMovies: Movies,
-  prevMovies: Movies,
-  page: number
-): Movies {
+function setter<T extends Movies | Shows>(prevState: T, newState: T): T {
   return {
-    ...newMovies,
-    results:
-      page > 1
-        ? [...newMovies.results, ...prevMovies.results]
-        : [...newMovies.results],
-  };
-}
-
-function updateShowsState(
-  newShows: Shows,
-  prevShows: Shows,
-  page: number
-): Shows {
-  return {
-    ...newShows,
-    results:
-      page > 1
-        ? [...newShows.results, ...prevShows.results]
-        : [...newShows.results],
+    ...newState,
+    results: [...prevState.results, ...newState.results],
   };
 }
