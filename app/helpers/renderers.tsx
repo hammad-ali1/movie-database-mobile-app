@@ -1,19 +1,19 @@
 import HorizontalScroll from "../components/HorizontalScroll";
-import { Movie } from "../api/moviedb.api";
+import { Movie, Show } from "../api/moviedb.api";
 import { TouchableOpacity } from "react-native";
 import { POSTER_SIZE, IMAGE_BASE_URL } from "../config/config";
 import Thumb from "../components/Thumb";
 
 export const renderHorizontalScroll = (
   title: string,
-  movies: Movie[],
+  items: Movie[] | Show[],
   navigation: ScreenNavigationProp
 ) => {
-  if (movies.length === 0) return <></>;
+  if (items?.length === 0) return <></>;
   return (
     <HorizontalScroll
       title={title}
-      data={movies}
+      data={items}
       renderItem={({ item }) => (
         <TouchableOpacity
           style={{ flexDirection: "row" }}

@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View, FlatList, FlatListProps } from "react-native";
-import { Movie } from "../api/moviedb.api";
+import { Movie, Show } from "../api/moviedb.api";
 import colors from "../config/colors";
 
 //Types
@@ -10,7 +10,7 @@ type PropTypes = {
 export default function HorizontalScroll({
   title,
   ...props
-}: PropTypes & FlatListProps<Movie>) {
+}: PropTypes & FlatListProps<Movie | Show>) {
   return (
     <View style={styles.listContainer}>
       {title && <Text style={styles.title}>{title}</Text>}

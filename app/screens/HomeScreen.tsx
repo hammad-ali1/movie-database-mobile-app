@@ -17,9 +17,9 @@ function MovieHome({ navigation }: RouteProps) {
     popular: true,
     trending: "week",
   });
-  const popularMovies = state.popular;
-  const topMovies = state.topRated;
-  const trendinMovies = state.trendingMovies;
+  const popularMovies = state.movies.popularMovies;
+  const topMovies = state.movies.topRatedMovies;
+  const trendinMovies = state.movies.trendingMovies;
 
   const horintalScrolls = [
     renderHorizontalScroll("TOP MOVIES", topMovies.results, navigation),
