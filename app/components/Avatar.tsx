@@ -12,17 +12,22 @@ export default function ({ image, text, ...props }: PropTypes & AvatarProps) {
   return (
     <View style={styles.container}>
       <View style={styles.avatar}>
-        <Avatar
-          rounded
-          source={
-            image
-              ? {
-                  uri: image,
-                }
-              : require("../assets/no_image.jpg")
-          }
-          {...props}
-        />
+        {image ? (
+          <Avatar
+            rounded
+            icon={{ name: "user", color: "white", type: "font-awesome" }}
+            source={{
+              uri: image,
+            }}
+            {...props}
+          />
+        ) : (
+          <Avatar
+            rounded
+            icon={{ name: "user", color: "white", type: "font-awesome" }}
+            {...props}
+          />
+        )}
       </View>
       <Text style={[globalStyles.p, globalStyles.center]}>{text}</Text>
     </View>
