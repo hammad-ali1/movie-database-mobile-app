@@ -31,6 +31,7 @@ type OptionsType = {
   popularShows?: boolean;
   topRatedShows?: boolean;
   trendingShows?: "day" | "week" | null;
+  clearAll?: boolean;
 };
 
 export default function useMoviesFetch(
@@ -43,6 +44,7 @@ export default function useMoviesFetch(
     popularShows: true,
     topRatedShows: true,
     trendingShows: "day",
+    clearAll: false,
   }
 ) {
   //states
@@ -71,52 +73,48 @@ export default function useMoviesFetch(
     loadTrendingShows,
   };
   async function loadPopularMovies() {
-    const newMovies = await API.fetchPopularMovies(popularMovies.page + 1);
+    const page = popularMovies.page + 1;
+    const newMovies = await API.fetchPopularMovies(page);
 
-    setPopularMovies((prevMovies) => setter(prevMovies, newMovies));
+    setPopularMovies((prevMovies) => setter(prevMovies, newMovies, page));
   }
 
   async function loadTopRatedMovies() {
-    const newMovies = await API.fetchTopMovies(topRatedMovies.page + 1);
-    setTopRatedMovies((prevMovies) => setter(prevMovies, newMovies));
+    const page = topRatedMovies.page + 1;
+    const newMovies = await API.fetchTopMovies(page);
+    setTopRatedMovies((prevMovies) => setter(prevMovies, newMovies, page));
   }
   async function loadSearchResultsMovies(searchTerm: string) {
-    const newMovies = await API.searchMovies(
-      searchTerm,
-      searchResultsMovies.page + 1
-    );
-    setSearchResultsMovies((prevMovies) => setter(prevMovies, newMovies));
+    const page = loadOptions.clearAll ? 1 : searchResultsMovies.page + 1;
+    const newMovies = await API.searchMovies(searchTerm, page);
+    setSearchResultsMovies((prevMovies) => setter(prevMovies, newMovies, page));
   }
   async function loadTrendingMovies(time_limit: "day" | "week") {
-    const newMovies = await API.fetchTrendingMovies(
-      trendingMovies.page + 1,
-      time_limit
-    );
-    setTrendingMovies((prevMovies) => setter(prevMovies, newMovies));
+    const page = trendingMovies.page + 1;
+    const newMovies = await API.fetchTrendingMovies(page, time_limit);
+    setTrendingMovies((prevMovies) => setter(prevMovies, newMovies, page));
   }
 
   async function loadPopularShows() {
-    const newShows = await API.fetchPopularShows(popularShows.page + 1);
-    setPopularShows((prevShows) => setter(prevShows, newShows));
+    const page = popularShows.page + 1;
+    const newShows = await API.fetchPopularShows(page);
+    setPopularShows((prevShows) => setter(prevShows, newShows, page));
   }
 
   async function loadTopRatedShows() {
-    const newShows = await API.fetchTopShows(topRatedShows.page + 1);
-    setTopRatedShows((prevShows) => setter(prevShows, newShows));
+    const page = topRatedShows.page + 1;
+    const newShows = await API.fetchTopShows(page);
+    setTopRatedShows((prevShows) => setter(prevShows, newShows, page));
   }
   async function loadSearchResultsShows(searchTerm: string) {
-    const newShows = await API.searchShows(
-      searchTerm,
-      searchResultsShows.page + 1
-    );
-    setSearchResultsShows((prevShows) => setter(prevShows, newShows));
+    const page = loadOptions.clearAll ? 1 : searchResultsShows.page + 1;
+    const newShows = await API.searchShows(searchTerm, page);
+    setSearchResultsShows((prevShows) => setter(prevShows, newShows, page));
   }
   async function loadTrendingShows(time_limit: "day" | "week") {
-    const newShows = await API.fetchTrendingShows(
-      trendingShows.page + 1,
-      time_limit
-    );
-    setTrendingShows((prevShows) => setter(prevShows, newShows));
+    const page = trendingShows.page + 1;
+    const newShows = await API.fetchTrendingShows(page, time_limit);
+    setTrendingShows((prevShows) => setter(prevShows, newShows, page));
   }
 
   //other states
@@ -127,13 +125,13 @@ export default function useMoviesFetch(
 
   useEffect(() => {
     fetchState(options); //fetch with initial option configuration
-  }, [searchTerm]);
+  }, []);
 
   useEffect(() => {
     if (Object.keys(loadOptions).length === 0) return; //if nothing to load then return
     fetchState(loadOptions);
     setLoadOptions({});
-  }, [loadOptions, searchTerm]);
+  }, [loadOptions]);
 
   //functions
   const fetchState = async (options: OptionsType) => {
@@ -189,9 +187,16 @@ export default function useMoviesFetch(
   return { state, loading, error, setSearchTerm, searchTerm, setLoadOptions };
 }
 
-function setter<T extends Movies | Shows>(prevState: T, newState: T): T {
+function setter<T extends Movies | Shows>(
+  prevState: T,
+  newState: T,
+  page: number
+): T {
   return {
     ...newState,
-    results: [...prevState.results, ...newState.results],
+    results:
+      page > 1
+        ? [...prevState.results, ...newState.results]
+        : [...newState.results],
   };
 }

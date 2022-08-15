@@ -1,4 +1,4 @@
-import { StyleSheet, View, Alert } from "react-native";
+import { StyleSheet, View, Alert, Text } from "react-native";
 import CustomTextInput from "../components/TextInput";
 import useMoviesFetch from "../hooks/useMoviesFetch";
 import VerticalScroll from "../components/VerticalScroll";
@@ -37,9 +37,17 @@ export default function SearchScreen({ navigation }: RouteProps) {
     <View style={[styles.container]}>
       <CustomTextInput
         // backgroundColor="transparent"
-        setInputTerm={setSearchTerm}
+        setInputTerm={(searchTerm) => {
+          setSearchTerm(searchTerm);
+          setLoadOptions({
+            searchMovies: true,
+            searchShows: true,
+            clearAll: true,
+          });
+        }}
         placeholder="Search Movies"
       />
+      <Text>{searchTerm}</Text>
       {/* <Button title="Load More" onPress={() => setIsLoadingMore(true)} /> */}
       <VerticalScroll
         linearGradinet
