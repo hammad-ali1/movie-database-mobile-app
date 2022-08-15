@@ -15,6 +15,7 @@ import Thumb from "../components/Thumb";
 
 import colors from "../config/colors";
 import sizes from "../config/sizes";
+import globalStyles from "../styles/globalStyles";
 import { renderHorizontalScroll } from "../helpers/renderers";
 //PropTypes
 type PropTypes = {};
@@ -68,17 +69,17 @@ export default function MovieScreen({ navigation, route }: RouteProps) {
         </View>
       </ImageBackground>
       <View style={styles.movieDetails}>
-        <Text style={styles.title}>{movie.title}</Text>
-        <Text style={styles.overview}>{movie.overview}</Text>
+        <Text style={[globalStyles.h1, styles.title]}>{movie.title}</Text>
+        <Text style={[globalStyles.p, styles.overview]}>{movie.overview}</Text>
+        <View style={styles.actors}></View>
+        {renderHorizontalScroll({
+          title: "SIMILAR MOVIES",
+          titleStyles: { color: "black", padding: 0 },
+          items: similarMovies.results,
+          navigation,
+          showButton: false,
+        })}
       </View>
-      <View style={styles.actors}></View>
-      {renderHorizontalScroll({
-        title: "SIMILAR MOVIES",
-        titleStyles: { color: "black" },
-        items: similarMovies.results,
-        navigation,
-        showButton: false,
-      })}
     </ScrollView>
   );
 }
@@ -90,6 +91,7 @@ const styles = StyleSheet.create({
   movieDetails: {
     flex: 1,
     backgroundColor: colors.movieDeailsBG,
+    padding: 10,
   },
 
   imageBackground: {
@@ -124,14 +126,10 @@ const styles = StyleSheet.create({
   },
   title: {
     alignSelf: "center",
-    fontWeight: "bold",
-    fontSize: sizes.fontBig,
   },
   overview: {
     backgroundColor: colors.overviewBG,
     color: colors.overviewTXT,
-    fontSize: sizes.fontMed,
-    padding: 10,
   },
 
   actors: {

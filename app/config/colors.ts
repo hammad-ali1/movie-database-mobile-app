@@ -5,7 +5,7 @@ const colors = {
   primary: "#d1cec9",
   searchIcon: "grey",
   //horizontal scroll bar
-  horizontalScrollBarBackGround: "rgba(52, 52, 52, 0.3)",
+  horizontalScrollBarBackGround: "rgba(0, 0, 0, 0.1)",
   horizontalScollTitle: "white",
   loadMoreList: "rgba(49, 3, 110, 0.612)",
   //vertical scroll bar
