@@ -150,7 +150,7 @@ const apiSettings = {
   },
   fetchSimilarMovies: async (movieId: number): Promise<Movies> => {
     return await (
-      await axios.get(`movie/${movieId}/similar`)
+      await axios.get(`movie/${movieId}/recommendations`)
     ).data;
   },
   fetchLatestMovie: async (): Promise<Movie> => {

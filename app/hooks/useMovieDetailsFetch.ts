@@ -1,19 +1,16 @@
 import { useState, useEffect, useCallback } from "react";
-import API, { Movie, Cast, Crew, Genre } from "../api/moviedb.api";
+import API, { Movie, Cast, Crew, Movies } from "../api/moviedb.api";
 
 //Types
 export class MovieStateType extends Movie {
   actors: Cast[] = [];
   directors: Crew[] = [];
 }
-type MovieFetchReturnType = {
-  state: MovieStateType;
-  loading: boolean;
-  error: boolean;
-};
-const useMovieDetailsFetch = (movieId: number): MovieFetchReturnType => {
+
+const useMovieDetailsFetch = (movieId: number) => {
   //States
-  const [state, setState] = useState(new MovieStateType());
+  const [movie, setMovie] = useState(new MovieStateType());
+  const [similarMovies, setSimilarMovies] = useState(new Movies());
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
@@ -25,6 +22,7 @@ const useMovieDetailsFetch = (movieId: number): MovieFetchReturnType => {
 
       const movie = await API.fetchMovie(movieId);
       const credits = await API.fetchCredits(movieId);
+      const similarMovies = await API.fetchSimilarMovies(movieId);
 
       //Get directors
       const directors = credits.crew.filter(
@@ -32,7 +30,8 @@ const useMovieDetailsFetch = (movieId: number): MovieFetchReturnType => {
       );
 
       //setState
-      setState({ ...movie, actors: credits.cast, directors });
+      setMovie({ ...movie, actors: credits.cast, directors });
+      setSimilarMovies(similarMovies);
       setLoading(false);
     } catch (err) {
       setError(true);
@@ -44,6 +43,10 @@ const useMovieDetailsFetch = (movieId: number): MovieFetchReturnType => {
     fetchMovie(movieId);
   }, [movieId, fetchMovie]);
 
+  const state = {
+    movie,
+    similarMovies,
+  };
   //return statement of hook
   return { state, loading, error };
 };

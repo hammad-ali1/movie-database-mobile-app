@@ -1,6 +1,6 @@
 import HorizontalScroll from "../components/HorizontalScroll";
 import { Movie, Show } from "../api/moviedb.api";
-import { TouchableOpacity } from "react-native";
+import { TouchableOpacity, TextStyle } from "react-native";
 import { POSTER_SIZE, IMAGE_BASE_URL } from "../config/config";
 import Thumb from "../components/Thumb";
 import LoadMoreButton from "../components/LoadMoreListButton";
@@ -8,6 +8,7 @@ import LoadMoreButton from "../components/LoadMoreListButton";
 //
 type ScrollRenderer = {
   title: string;
+  titleStyles?: TextStyle;
   items: Movie[] | Show[];
   navigation: ScreenNavigationProp;
   onPress?: onPressHandler;
@@ -15,6 +16,7 @@ type ScrollRenderer = {
 };
 export const renderHorizontalScroll = ({
   title,
+  titleStyles,
   items,
   navigation,
   onPress,
@@ -24,6 +26,7 @@ export const renderHorizontalScroll = ({
   return (
     <HorizontalScroll
       title={title}
+      titleStyles={titleStyles}
       data={items}
       ListFooterComponent={() =>
         showButton ? <LoadMoreButton onPress={onPress} /> : <></>

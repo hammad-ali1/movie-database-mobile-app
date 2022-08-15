@@ -29,12 +29,12 @@ const colors = {
   //--------------------------------------------------------->
   //MOVIE SCREEN
 
-  movieDeailsBG: "rgba(0,0,0,0.5)",
+  movieDeailsBG: "#C8C8C8",
   ratingBG: "white",
-  ratingTXT: "black",
-  genresTXT: "white",
-  overviewBG: "rgba(0,0,0,0.6)",
-  overviewTXT: "white",
+  ratingTXT: "#000",
+  genresTXT: "#000",
+  overviewBG: "transparent",
+  overviewTXT: "#000",
   actorsContainer: "blue",
   //--------------------------------------------------------->
   //--------------------------------------------------------->

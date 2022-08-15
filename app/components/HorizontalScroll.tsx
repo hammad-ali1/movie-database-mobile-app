@@ -1,19 +1,28 @@
 import React from "react";
-import { StyleSheet, Text, View, FlatList, FlatListProps } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  FlatListProps,
+  TextStyle,
+} from "react-native";
 import { Movie, Show } from "../api/moviedb.api";
 import colors from "../config/colors";
 
 //Types
 type PropTypes = {
   title?: string;
+  titleStyles?: TextStyle;
 };
 export default function HorizontalScroll({
   title,
+  titleStyles,
   ...props
 }: PropTypes & FlatListProps<Movie | Show>) {
   return (
     <View style={styles.listContainer}>
-      {title && <Text style={styles.title}>{title}</Text>}
+      {title && <Text style={[styles.title, titleStyles]}>{title}</Text>}
       <FlatList
         horizontal
         style={[styles.defaultListStyle, props.style]}
