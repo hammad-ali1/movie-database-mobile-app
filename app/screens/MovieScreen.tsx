@@ -1,4 +1,10 @@
-import { ImageBackground, StyleSheet, Text, View } from "react-native";
+import {
+  ImageBackground,
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+} from "react-native";
 import { POSTER_SIZE, IMAGE_BASE_URL, BACKDROP_SIZE } from "../config/config";
 
 //Hooks
@@ -12,7 +18,7 @@ export default function MovieScreen({ navigation, route }: RouteProps) {
   const { id } = route.params;
   const { state: movie } = useMovieDetailsFetch(id);
   return (
-    <View style={[styles.container]}>
+    <ScrollView style={[styles.container]}>
       <View style={styles.movieDetails}>
         <View style={styles.image}>
           <ImageBackground
@@ -36,10 +42,11 @@ export default function MovieScreen({ navigation, route }: RouteProps) {
             />
           </ImageBackground>
         </View>
+        <Text style={styles.overview}>{movie.overview}</Text>
         <Text style={styles.title}>{movie.title}</Text>
       </View>
       <View style={styles.actors}></View>
-    </View>
+    </ScrollView>
   );
 }
 
@@ -57,8 +64,16 @@ const styles = StyleSheet.create({
   },
   image: {
     flex: 1,
+    marginBottom: 10,
   },
   imageBackground: {
+    padding: 10,
+    flexDirection: "row",
+  },
+  overview: {
+    backgroundColor: "rgba(0,0,0,0.6)",
+    color: "white",
+    fontSize: 16,
     padding: 10,
   },
   actors: {
