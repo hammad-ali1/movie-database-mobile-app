@@ -36,8 +36,11 @@ const defaultConfig = {
 export type Movie = {
   backdrop_path: string;
   id: number;
+  adult: boolean;
   original_title: string;
   overview: string;
+  genre_ids: number[];
+  video: boolean;
   popularity: number;
   poster_path: string;
   title: string;
@@ -52,6 +55,13 @@ export type Movies = {
   results: Movie[];
   total_pages: number;
   total_results: number;
+};
+export type Genres = {
+  genres: Genre[];
+};
+export type Genre = {
+  id: number;
+  name: string;
 };
 
 export type Cast = {
@@ -156,6 +166,11 @@ const apiSettings = {
   fetchCredits: async (movieId: number): Promise<Credits> => {
     return await (
       await axios.get(`movie/${movieId}/credits`)
+    ).data;
+  },
+  fetchGenres: async (): Promise<Genres> => {
+    return await (
+      await axios.get("genre/movie/list")
     ).data;
   },
   //TV SHOWS

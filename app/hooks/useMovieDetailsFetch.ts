@@ -1,10 +1,11 @@
 import { useState, useEffect, useCallback } from "react";
-import API, { Movie, Cast, Crew } from "../api/moviedb.api";
+import API, { Movie, Cast, Crew, Genre } from "../api/moviedb.api";
 
 //Types
 export interface MovieStateType extends Movie {
   actors: Cast[];
   directors: Crew[];
+  genres: Genre[];
 }
 type MovieFetchReturnType = {
   state: MovieStateType;
@@ -25,13 +26,19 @@ const useMovieDetailsFetch = (movieId: number): MovieFetchReturnType => {
 
       const movie = await API.fetchMovie(movieId);
       const credits = await API.fetchCredits(movieId);
+      const allGenres = await API.fetchGenres();
       //Get directors
       const directors = credits.crew.filter(
         (crewMember) => crewMember.job === "Director"
       );
+      //Get genres
+      const genres: Genre[] = [];
+      movie.genre_ids.forEach((genre_id) => {
+        genres.push(allGenres.genres[genre_id]);
+      });
 
       //setState
-      setState({ ...movie, actors: credits.cast, directors });
+      setState({ ...movie, actors: credits.cast, directors, genres });
       setLoading(false);
     } catch (err) {
       setError(true);
