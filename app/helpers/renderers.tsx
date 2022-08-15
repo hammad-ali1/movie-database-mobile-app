@@ -5,16 +5,6 @@ import { POSTER_SIZE, IMAGE_BASE_URL } from "../config/config";
 import Thumb from "../components/Thumb";
 import LoadMoreButton from "../components/LoadMoreListButton";
 
-//
-type ScrollRenderer = {
-  title: string;
-  titleStyles?: TextStyle;
-  items: Movie[] | Show[];
-  navigation: ScreenNavigationProp;
-  onPress?: onPressHandler;
-  showButton: boolean;
-};
-
 class RenderParams<T> {
   title: string = "";
   titleStyles?: TextStyle = {};
@@ -22,7 +12,7 @@ class RenderParams<T> {
   navigation: ScreenNavigationProp | undefined;
   onPress?: onPressHandler;
   showButton: boolean = false;
-  keyExtractor?: (item: T) => number;
+  customKeyExtractor?: (item: T) => number;
 }
 export function renderHorizontalScroll<Item extends Movie | Show | Cast>(
   {
@@ -32,7 +22,7 @@ export function renderHorizontalScroll<Item extends Movie | Show | Cast>(
     navigation,
     onPress,
     showButton,
-    keyExtractor,
+    customKeyExtractor,
   } = new RenderParams<Item>()
 ) {
   if (items?.length === 0) return <></>;
@@ -44,7 +34,7 @@ export function renderHorizontalScroll<Item extends Movie | Show | Cast>(
       ListFooterComponent={() =>
         showButton ? <LoadMoreButton onPress={onPress} /> : <></>
       }
-      customKeyExtractor={keyExtractor}
+      customKeyExtractor={customKeyExtractor}
       renderItem={({ item }) => (
         <TouchableOpacity
           style={{ flexDirection: "row" }}

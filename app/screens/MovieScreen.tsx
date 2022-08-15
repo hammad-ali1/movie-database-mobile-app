@@ -109,6 +109,9 @@ export default function MovieScreen({ navigation, route }: RouteProps) {
           navigation,
           showButton: false,
           items: movie.actors,
+          customKeyExtractor: (item) => {
+            return item.credit_id;
+          },
         })}
       </ScrollView>
     </View>
