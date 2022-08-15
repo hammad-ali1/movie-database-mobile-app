@@ -11,18 +11,20 @@ type PropTypes = {
 export default function ({ image, text, ...props }: PropTypes & AvatarProps) {
   return (
     <View style={styles.container}>
-      <Avatar
-        rounded
-        source={
-          image
-            ? require("../assets/no_image.jpg")
-            : {
-                uri: image,
-              }
-        }
-        {...props}
-      />
-      <Text style={[globalStyles.p]}>{text}</Text>
+      <View style={styles.avatar}>
+        <Avatar
+          rounded
+          source={
+            image
+              ? {
+                  uri: image,
+                }
+              : require("../assets/no_image.jpg")
+          }
+          {...props}
+        />
+      </View>
+      <Text style={[globalStyles.p, globalStyles.center]}>{text}</Text>
     </View>
   );
 }
@@ -30,5 +32,10 @@ export default function ({ image, text, ...props }: PropTypes & AvatarProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignContent: "center",
+    justifyContent: "center",
+  },
+  avatar: {
+    alignSelf: "center",
   },
 });

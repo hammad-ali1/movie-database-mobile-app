@@ -17,6 +17,13 @@ const globalStyles = StyleSheet.create({
 
     elevation: 3,
   },
+  centerItems: {
+    alignContent: "center",
+    justifyContent: "center",
+  },
+  center: {
+    alignSelf: "center",
+  },
 });
 
 export default globalStyles;

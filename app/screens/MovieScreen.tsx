@@ -106,12 +106,23 @@ export default function MovieScreen({ navigation, route }: RouteProps) {
         </View>
         {renderHorizontalScroll({
           title: "ACTORS",
+          titleStyles: { color: "black", margin: 0 },
           navigation,
           showButton: false,
           items: movie.actors,
           customKeyExtractor: (item) => {
             return item.credit_id;
           },
+          customRenderItem: ({ item }) => (
+            <Avatar
+              size="large"
+              text={item.name}
+              image={
+                item.profile_path &&
+                `${IMAGE_BASE_URL}${POSTER_SIZE}${item.profile_path}`
+              }
+            />
+          ),
         })}
       </ScrollView>
     </View>
