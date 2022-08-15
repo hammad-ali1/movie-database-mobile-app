@@ -13,13 +13,14 @@ import { POSTER_SIZE, IMAGE_BASE_URL, BACKDROP_SIZE } from "../config/config";
 import useMovieDetailsFetch from "../hooks/useMovieDetailsFetch";
 //components
 import Thumb from "../components/Thumb";
-
+import Avatar from "../components/Avatar";
 import colors from "../config/colors";
 import sizes from "../config/sizes";
 import globalStyles from "../styles/globalStyles";
 import HorizontalScroll from "../components/HorizontalScroll";
 import { renderHorizontalScroll } from "../helpers/renderers";
 //PropTypes
+import { Cast } from "../api/moviedb.api";
 type PropTypes = {};
 
 export default function MovieScreen({ navigation, route }: RouteProps) {
@@ -103,6 +104,12 @@ export default function MovieScreen({ navigation, route }: RouteProps) {
             renderItem={({ item: actor }) => <></>}
           />
         </View>
+        {renderHorizontalScroll({
+          title: "ACTORS",
+          navigation,
+          showButton: false,
+          items: movie.actors,
+        })}
       </ScrollView>
     </View>
   );

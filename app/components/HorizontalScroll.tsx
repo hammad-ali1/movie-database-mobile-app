@@ -7,26 +7,31 @@ import {
   FlatListProps,
   TextStyle,
 } from "react-native";
-import { Cast, Movie, Show } from "../api/moviedb.api";
 import colors from "../config/colors";
 
 //Types
 type PropTypes = {
   title?: string;
+  customKeyExtractor?: (arg: any) => number;
   titleStyles?: TextStyle;
 };
 export default function HorizontalScroll({
   title,
   titleStyles,
+  customKeyExtractor,
   ...props
-}: PropTypes & FlatListProps<Movie | Show>) {
+}: PropTypes & FlatListProps<any>) {
   return (
     <View style={styles.listContainer}>
       {title && <Text style={[styles.title, titleStyles]}>{title}</Text>}
       <FlatList
         horizontal
         style={[styles.defaultListStyle, props.style]}
-        keyExtractor={(item, index) => item.id.toString() + index}
+        keyExtractor={
+          customKeyExtractor
+            ? customKeyExtractor
+            : (item, index) => item.id.toString() + index
+        }
         {...props}
       />
     </View>
