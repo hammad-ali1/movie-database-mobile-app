@@ -2,65 +2,29 @@ import { useState, useEffect, useRef } from "react";
 //API
 import API, { Movie, Movies, Show, Shows } from "../api/moviedb.api";
 
-//Movies
-function defaultMoviesObject(): Movies {
-  return {
-    page: 0,
-    results: [] as Movie[],
-    total_pages: 0,
-    total_results: 0,
-  };
+export class FetchOptions {
+  searchMovies?: boolean = false;
+  popularMovies?: boolean = true;
+  topRatedMovies?: boolean = true;
+  trendingMovies?: "day" | "week" | null = "day";
+  searchShows?: boolean = true;
+  popularShows?: boolean = true;
+  topRatedShows?: boolean = true;
+  trendingShows?: "day" | "week" | null = "day";
+  clearAll?: boolean = true;
 }
 
-//Shows
-function defaultShowsObject(): Shows {
-  return {
-    page: 0,
-    results: [] as Show[],
-    total_pages: 0,
-    total_results: 0,
-  };
-}
-
-type OptionsType = {
-  searchMovies?: boolean;
-  popularMovies?: boolean;
-  topRatedMovies?: boolean;
-  trendingMovies?: "day" | "week" | null;
-  searchShows?: boolean;
-  popularShows?: boolean;
-  topRatedShows?: boolean;
-  trendingShows?: "day" | "week" | null;
-  clearAll?: boolean;
-};
-
-export default function useMoviesFetch(
-  options: OptionsType = {
-    searchMovies: false,
-    popularMovies: true,
-    topRatedMovies: true,
-    trendingMovies: "day",
-    searchShows: false,
-    popularShows: true,
-    topRatedShows: true,
-    trendingShows: "day",
-    clearAll: false,
-  }
-) {
+export default function useMoviesFetch(options = new FetchOptions()) {
   //states
 
-  const [popularMovies, setPopularMovies] = useState(defaultMoviesObject());
-  const [topRatedMovies, setTopRatedMovies] = useState(defaultMoviesObject());
-  const [searchResultsMovies, setSearchResultsMovies] = useState(
-    defaultMoviesObject()
-  );
-  const [trendingMovies, setTrendingMovies] = useState(defaultMoviesObject());
-  const [popularShows, setPopularShows] = useState(defaultShowsObject());
-  const [topRatedShows, setTopRatedShows] = useState(defaultShowsObject());
-  const [searchResultsShows, setSearchResultsShows] = useState(
-    defaultShowsObject()
-  );
-  const [trendingShows, setTrendingShows] = useState(defaultShowsObject());
+  const [popularMovies, setPopularMovies] = useState(new Movies());
+  const [topRatedMovies, setTopRatedMovies] = useState(new Movies());
+  const [searchResultsMovies, setSearchResultsMovies] = useState(new Movies());
+  const [trendingMovies, setTrendingMovies] = useState(new Movies());
+  const [popularShows, setPopularShows] = useState(new Shows());
+  const [topRatedShows, setTopRatedShows] = useState(new Shows());
+  const [searchResultsShows, setSearchResultsShows] = useState(new Shows());
+  const [trendingShows, setTrendingShows] = useState(new Shows());
   //state loaders
   const loadMore = {
     loadPopularMovies,
@@ -86,7 +50,7 @@ export default function useMoviesFetch(
   }
   async function loadSearchResultsMovies(searchTerm: string) {
     if (!searchTerm) {
-      setSearchResultsMovies(defaultMoviesObject());
+      setSearchResultsMovies(new Movies());
       return;
     }
     const page = loadOptions.clearAll ? 1 : searchResultsMovies.page + 1;
@@ -112,7 +76,7 @@ export default function useMoviesFetch(
   }
   async function loadSearchResultsShows(searchTerm: string) {
     if (!searchTerm) {
-      setSearchResultsShows(defaultShowsObject());
+      setSearchResultsShows(new Shows());
       return;
     } // if no search term specified return empty object
     const page = loadOptions.clearAll ? 1 : searchResultsShows.page + 1;
@@ -129,7 +93,7 @@ export default function useMoviesFetch(
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const [loadOptions, setLoadOptions] = useState<OptionsType>({});
+  const [loadOptions, setLoadOptions] = useState<FetchOptions>({});
 
   useEffect(() => {
     fetchState(options); //fetch with initial option configuration
@@ -142,7 +106,7 @@ export default function useMoviesFetch(
   }, [loadOptions]);
 
   //functions
-  const fetchState = async (options: OptionsType) => {
+  const fetchState = async (options: FetchOptions) => {
     try {
       setError(false);
       setLoading(true);

@@ -50,74 +50,74 @@ export class Movie {
   runtime: number = 0;
   revenue: number = 0;
 }
-export type Movies = {
-  page: number;
-  results: Movie[];
-  total_pages: number;
-  total_results: number;
-};
-export type Genres = {
-  genres: Genre[];
-};
+export class Movies {
+  page: number = 0;
+  results: Movie[] = [];
+  total_pages: number = 0;
+  total_results: number = 0;
+}
+export class Genres {
+  genres: Genre[] = [];
+}
 export class Genre {
   id: number = 0;
   name: string = "";
 }
 
-export type Cast = {
-  character: string;
-  credit_id: number;
-  name: string;
-  profile_path: string;
-};
-export type Crew = {
-  job: string;
-  name: string;
-  credit_id: number;
-};
-export type Credits = {
-  id: number;
-  cast: Cast[];
-  crew: Crew[];
-};
+export class Cast {
+  character: string = "";
+  credit_id: number = 0;
+  name: string = "";
+  profile_path: string = "";
+}
+export class Crew {
+  job: string = "";
+  name: string = "";
+  credit_id: number = 0;
+}
+export class Credits {
+  id: number = 0;
+  cast: Cast[] = [];
+  crew: Crew[] = [];
+}
 
-export type Video = {
-  iso_639_1: string;
-  iso_3166_1: string;
-  name: string;
-  key: string;
-  site: string;
-  size: number;
-  type: string;
-  official: boolean;
-  published_at: string;
-  id: string;
-};
-export type Videos = {
-  id: number; //movie id
-  results: Video[];
-};
+export class Video {
+  iso_639_1: string = "";
+  iso_3166_1: string = "";
+  name: string = "";
+  key: string = "";
+  site: string = "";
+  size: number = 0;
+  type: string = "";
+  official: boolean = false;
+  published_at: string = "";
+  id: string = "";
+}
+export class Videos {
+  id: number = 0; //movie id
+  results: Video[] = [];
+}
 
 //TV Shows
-export type Shows = {
-  page: number;
-  results: Show[];
-  total_pages: number;
-  total_results: number;
-};
-export type Show = {
-  backdrop_path: string | null;
-  poster_path: string | null;
-  id: number;
-  vote_average: number;
-  overview: string;
-  name: string;
-  original_name: string;
-  original_language: string;
-  popularity: number;
-  vote_count: number;
-  first_air_date: string;
-};
+export class Shows {
+  page: number = 0;
+  results: Show[] = [];
+  total_pages: number = 0;
+  total_results: number = 0;
+}
+export class Show {
+  backdrop_path: string | null = null;
+  poster_path: string | null = null;
+  id: number = 0;
+  vote_average: number = 0;
+  overview: string = "";
+  name: string = "";
+  original_name: string = "";
+  original_language: string = "";
+  popularity: number = 0;
+  vote_count: number = 0;
+  first_air_date: string = "";
+}
 
 const apiSettings = {
   fetchTopMovies: async (page: number): Promise<Movies> => {
