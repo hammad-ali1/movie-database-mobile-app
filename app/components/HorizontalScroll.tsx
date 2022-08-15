@@ -7,7 +7,7 @@ import {
   FlatListProps,
   TextStyle,
 } from "react-native";
-import { Movie, Show } from "../api/moviedb.api";
+import { Cast, Movie, Show } from "../api/moviedb.api";
 import colors from "../config/colors";
 
 //Types

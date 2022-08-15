@@ -5,10 +5,9 @@ import {
   View,
   ScrollView,
   ActivityIndicator,
+  FlatList,
 } from "react-native";
 import { POSTER_SIZE, IMAGE_BASE_URL, BACKDROP_SIZE } from "../config/config";
-
-import { Avatar } from "@rneui/base";
 
 //Hooks
 import useMovieDetailsFetch from "../hooks/useMovieDetailsFetch";
@@ -18,6 +17,7 @@ import Thumb from "../components/Thumb";
 import colors from "../config/colors";
 import sizes from "../config/sizes";
 import globalStyles from "../styles/globalStyles";
+import HorizontalScroll from "../components/HorizontalScroll";
 import { renderHorizontalScroll } from "../helpers/renderers";
 //PropTypes
 type PropTypes = {};
@@ -87,11 +87,20 @@ export default function MovieScreen({ navigation, route }: RouteProps) {
             navigation,
             showButton: false,
           })}
-          <Avatar
-            rounded
-            source={{
-              uri: "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg",
+          {/* <HorizontalScroll data={state.movie.actors} keyExtractor={(item, index) => item. + index}/> */}
+          <FlatList
+            horizontal
+            data={state.movie.actors}
+            ItemSeparatorComponent={() => {
+              return (
+                <View
+                  style={{
+                    margin: 10,
+                  }}
+                />
+              );
             }}
+            renderItem={({ item: actor }) => <></>}
           />
         </View>
       </ScrollView>
