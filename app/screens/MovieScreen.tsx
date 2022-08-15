@@ -44,7 +44,11 @@ export default function MovieScreen({ navigation, route }: RouteProps) {
               }
             />
             <View style={styles.genreRatingContainer}>
-              <Text style={styles.rating}>{movie.vote_average.toFixed(1)}</Text>
+              <View style={styles.ratingCircle}>
+                <Text style={styles.ratingText}>
+                  {movie.vote_average.toFixed(1)}
+                </Text>
+              </View>
               <Text style={styles.genres}>
                 {movie.genres &&
                   movie.genres.map((genre) => genre.name + " | ")}
@@ -52,9 +56,6 @@ export default function MovieScreen({ navigation, route }: RouteProps) {
             </View>
           </View>
         </ImageBackground>
-        {/* <View style={styles.image}>
-          
-        </View> */}
         <Text style={styles.overview}>{movie.overview}</Text>
         <Text style={styles.title}>{movie.title}</Text>
       </View>
@@ -83,8 +84,17 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
   },
-  rating: {
-    color: "white",
+  ratingCircle: {
+    width: 40,
+    height: 40,
+    borderRadius: 40,
+    justifyContent: "center",
+    alignContent: "center",
+    backgroundColor: "white",
+  },
+  ratingText: {
+    alignSelf: "center",
+    color: "black",
     fontWeight: "bold",
     fontSize: 16,
   },
