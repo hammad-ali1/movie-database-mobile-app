@@ -14,7 +14,6 @@ class RenderParams<T> {
   showButton: boolean = false;
   customKeyExtractor?: (item: T) => number;
   customRenderItem?: ListRenderItem<T>;
-  horizontal: boolean = true;
 }
 export function renderScroll<Item extends Movie | Show | Cast>(
   {
@@ -26,8 +25,8 @@ export function renderScroll<Item extends Movie | Show | Cast>(
     showButton,
     customKeyExtractor,
     customRenderItem,
-    horizontal,
-  } = new RenderParams<Item>()
+  } = new RenderParams<Item>(),
+  horizontal: boolean = true
 ) {
   if (items?.length === 0) return <></>;
   return (
