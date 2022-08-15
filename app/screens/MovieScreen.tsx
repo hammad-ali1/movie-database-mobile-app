@@ -17,17 +17,18 @@ type PropTypes = {};
 export default function MovieScreen({ navigation, route }: RouteProps) {
   const { id } = route.params;
   const { state: movie } = useMovieDetailsFetch(id);
-  console.log(movie);
   return (
     <ScrollView style={[styles.container]}>
       <View style={styles.movieDetails}>
         <ImageBackground
           style={styles.imageBackground}
-          source={{
-            uri:
-              movie.backdrop_path &&
-              `${IMAGE_BASE_URL}${BACKDROP_SIZE}${movie.backdrop_path}`,
-          }}
+          source={
+            movie.backdrop_path
+              ? {
+                  uri: `${IMAGE_BASE_URL}${BACKDROP_SIZE}${movie.backdrop_path}`,
+                }
+              : require("../assets/no_image.jpg")
+          }
           resizeMode="cover"
           imageStyle={{
             opacity: 0.7,
@@ -38,7 +39,6 @@ export default function MovieScreen({ navigation, route }: RouteProps) {
               align="flex-start"
               size="medium"
               image={
-                movie &&
                 movie.poster_path &&
                 `${IMAGE_BASE_URL}${POSTER_SIZE}${movie.poster_path}`
               }
