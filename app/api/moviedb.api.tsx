@@ -33,23 +33,23 @@ const defaultConfig = {
 };
 
 //Types
-export type Movie = {
-  backdrop_path: string;
-  id: number;
-  adult: boolean;
-  original_title: string;
-  overview: string;
-  genres: Genre[];
-  video: boolean;
-  popularity: number;
-  poster_path: string;
-  title: string;
-  vote_average: number;
-  vote_count: number;
-  budget: number;
-  runtime: number;
-  revenue: number;
-};
+export class Movie {
+  backdrop_path: string = "";
+  id: number = 0;
+  adult: boolean = false;
+  original_title: string = "";
+  overview: string = "";
+  genres: Genre[] = [];
+  video: boolean = false;
+  popularity: number = 0;
+  poster_path: string = "";
+  title: string = "";
+  vote_average: number = 0;
+  vote_count: number = 0;
+  budget: number = 0;
+  runtime: number = 0;
+  revenue: number = 0;
+}
 export type Movies = {
   page: number;
   results: Movie[];
@@ -59,10 +59,10 @@ export type Movies = {
 export type Genres = {
   genres: Genre[];
 };
-export type Genre = {
-  id: number;
-  name: string;
-};
+export class Genre {
+  id: number = 0;
+  name: string = "";
+}
 
 export type Cast = {
   character: string;

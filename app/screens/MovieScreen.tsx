@@ -17,6 +17,7 @@ type PropTypes = {};
 export default function MovieScreen({ navigation, route }: RouteProps) {
   const { id } = route.params;
   const { state: movie } = useMovieDetailsFetch(id);
+  console.log(movie);
   return (
     <ScrollView style={[styles.container]}>
       <View style={styles.movieDetails}>
@@ -43,7 +44,7 @@ export default function MovieScreen({ navigation, route }: RouteProps) {
               }
             />
             <View style={styles.genreRatingContainer}>
-              <Text style={styles.rating}>{movie.vote_average}</Text>
+              <Text style={styles.rating}>{movie.vote_average.toFixed(1)}</Text>
               <Text style={styles.genres}>
                 {movie.genres &&
                   movie.genres.map((genre) => genre.name + " | ")}

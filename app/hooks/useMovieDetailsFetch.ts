@@ -2,9 +2,9 @@ import { useState, useEffect, useCallback } from "react";
 import API, { Movie, Cast, Crew, Genre } from "../api/moviedb.api";
 
 //Types
-export interface MovieStateType extends Movie {
-  actors: Cast[];
-  directors: Crew[];
+export class MovieStateType extends Movie {
+  actors: Cast[] = [];
+  directors: Crew[] = [];
 }
 type MovieFetchReturnType = {
   state: MovieStateType;
@@ -13,7 +13,7 @@ type MovieFetchReturnType = {
 };
 const useMovieDetailsFetch = (movieId: number): MovieFetchReturnType => {
   //States
-  const [state, setState] = useState({} as MovieStateType);
+  const [state, setState] = useState(new MovieStateType());
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
