@@ -20,28 +20,40 @@ export default function MovieScreen({ navigation, route }: RouteProps) {
   return (
     <ScrollView style={[styles.container]}>
       <View style={styles.movieDetails}>
-        <View style={styles.image}>
-          <ImageBackground
-            style={styles.imageBackground}
-            source={{
-              uri: `${IMAGE_BASE_URL}${BACKDROP_SIZE}${movie.backdrop_path}`,
-            }}
-            resizeMode="cover"
-            imageStyle={{
-              opacity: 0.7,
-            }}
-          >
+        <ImageBackground
+          style={styles.imageBackground}
+          source={{
+            uri:
+              movie.backdrop_path &&
+              `${IMAGE_BASE_URL}${BACKDROP_SIZE}${movie.backdrop_path}`,
+          }}
+          resizeMode="cover"
+          imageStyle={{
+            opacity: 0.7,
+          }}
+        >
+          <View style={styles.posterAndText}>
             <Thumb
               align="flex-start"
               size="medium"
               image={
-                movie.poster_path
-                  ? `${IMAGE_BASE_URL}${POSTER_SIZE}${movie.poster_path}`
-                  : undefined
+                movie &&
+                movie.poster_path &&
+                `${IMAGE_BASE_URL}${POSTER_SIZE}${movie.poster_path}`
               }
             />
-          </ImageBackground>
-        </View>
+            <View style={styles.genreRatingContainer}>
+              <Text style={styles.rating}>{movie.vote_average}</Text>
+              <Text style={styles.genres}>
+                {movie.genres &&
+                  movie.genres.map((genre) => genre.name + " | ")}
+              </Text>
+            </View>
+          </View>
+        </ImageBackground>
+        {/* <View style={styles.image}>
+          
+        </View> */}
         <Text style={styles.overview}>{movie.overview}</Text>
         <Text style={styles.title}>{movie.title}</Text>
       </View>
@@ -58,17 +70,31 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "rgba(0,0,0,0.5)",
   },
+
+  imageBackground: {
+    flex: 1,
+    padding: 10,
+  },
+  posterAndText: {
+    flexDirection: "row",
+  },
+  genreRatingContainer: {
+    flex: 1,
+    justifyContent: "center",
+  },
+  rating: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 16,
+  },
+  genres: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 16,
+  },
   title: {
     alignSelf: "center",
     fontWeight: "bold",
-  },
-  image: {
-    flex: 1,
-    marginBottom: 10,
-  },
-  imageBackground: {
-    padding: 10,
-    flexDirection: "row",
   },
   overview: {
     backgroundColor: "rgba(0,0,0,0.6)",
@@ -76,6 +102,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     padding: 10,
   },
+
   actors: {
     flex: 1,
     backgroundColor: "blue",

@@ -39,7 +39,7 @@ export type Movie = {
   adult: boolean;
   original_title: string;
   overview: string;
-  genre_ids: number[];
+  genres: Genre[];
   video: boolean;
   popularity: number;
   poster_path: string;
