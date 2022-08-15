@@ -6,24 +6,43 @@ import colors from "../config/colors";
 type PropTypes = {
   backgroundColor?: string;
   setInputTerm: setState<string>;
+  autoSubmit?: boolean;
+  submitDelay?: number;
 };
 
+const DEFAULT_AUTO_SUBMIT_DELAY = 1000;
 export default function CustomTextInput({
   setInputTerm,
   backgroundColor,
+  autoSubmit,
+  submitDelay,
   ...props
 }: PropTypes & TextInputProps) {
   //Refs
   const input = createRef<TextInput>();
   //States
-  const [value, setValue] = useState("");
+  const [state, setState] = useState("");
   //Effects
   useEffect(() => {
     input.current?.focus();
   }, []);
   useEffect(() => {
-    if (value === "") setInputTerm(value);
-  }, [value]); //if user removes all text without submitting.
+    if (state === "") {
+      setInputTerm(state);
+      return;
+    }
+    let timer: string | number | NodeJS.Timeout | undefined;
+    if (autoSubmit) {
+      timer = setTimeout(
+        () => {
+          setInputTerm(state);
+        },
+        submitDelay ? submitDelay : DEFAULT_AUTO_SUBMIT_DELAY
+      );
+    }
+
+    return () => clearTimeout(timer);
+  }, [state]); //if user removes all text without submitting.
 
   //add user styles
   const userStyles: any = {};
@@ -33,10 +52,10 @@ export default function CustomTextInput({
       ref={input}
       {...props}
       style={[styles.input, userStyles]}
-      value={value}
-      onChangeText={setValue}
+      value={state}
+      onChangeText={setState}
       onSubmitEditing={(event) => {
-        setInputTerm(value);
+        setInputTerm(state);
       }}
     />
   );

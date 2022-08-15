@@ -85,6 +85,10 @@ export default function useMoviesFetch(
     setTopRatedMovies((prevMovies) => setter(prevMovies, newMovies, page));
   }
   async function loadSearchResultsMovies(searchTerm: string) {
+    if (!searchTerm) {
+      setSearchResultsMovies(defaultMoviesObject());
+      return;
+    }
     const page = loadOptions.clearAll ? 1 : searchResultsMovies.page + 1;
     const newMovies = await API.searchMovies(searchTerm, page);
     setSearchResultsMovies((prevMovies) => setter(prevMovies, newMovies, page));
@@ -107,6 +111,10 @@ export default function useMoviesFetch(
     setTopRatedShows((prevShows) => setter(prevShows, newShows, page));
   }
   async function loadSearchResultsShows(searchTerm: string) {
+    if (!searchTerm) {
+      setSearchResultsShows(defaultShowsObject());
+      return;
+    } // if no search term specified return empty object
     const page = loadOptions.clearAll ? 1 : searchResultsShows.page + 1;
     const newShows = await API.searchShows(searchTerm, page);
     setSearchResultsShows((prevShows) => setter(prevShows, newShows, page));
@@ -151,10 +159,10 @@ export default function useMoviesFetch(
       if (options.topRatedShows) {
         loadMore.loadTopRatedShows();
       }
-      if (options.searchMovies && searchTerm) {
+      if (options.searchMovies) {
         loadMore.loadSearchResultsMovies(searchTerm);
       }
-      if (options.searchShows && searchTerm) {
+      if (options.searchShows) {
         loadMore.loadSearchResultsShows(searchTerm);
       }
       if (options.trendingMovies) {

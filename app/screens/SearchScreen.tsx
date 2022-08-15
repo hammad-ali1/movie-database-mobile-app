@@ -36,7 +36,7 @@ export default function SearchScreen({ navigation }: RouteProps) {
   return (
     <View style={[styles.container]}>
       <CustomTextInput
-        // backgroundColor="transparent"
+        autoSubmit={true}
         setInputTerm={(searchTerm) => {
           setSearchTerm(searchTerm);
           setLoadOptions({
@@ -47,8 +47,6 @@ export default function SearchScreen({ navigation }: RouteProps) {
         }}
         placeholder="Search Movies"
       />
-      <Text>{searchTerm}</Text>
-      {/* <Button title="Load More" onPress={() => setIsLoadingMore(true)} /> */}
       <VerticalScroll
         linearGradinet
         data={horizontalScrolls}
