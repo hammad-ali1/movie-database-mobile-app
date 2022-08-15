@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View } from "react-native";
-import { POSTER_SIZE, IMAGE_BASE_URL } from "../config/config";
+import { ImageBackground, StyleSheet, Text, View } from "react-native";
+import { POSTER_SIZE, IMAGE_BASE_URL, BACKDROP_SIZE } from "../config/config";
 
 //Hooks
 import useMovieDetailsFetch from "../hooks/useMovieDetailsFetch";
@@ -14,14 +14,28 @@ export default function MovieScreen({ navigation, route }: RouteProps) {
   return (
     <View style={[styles.container]}>
       <View style={styles.movieDetails}>
-        <Thumb
-          size="medium"
-          image={
-            movie.poster_path
-              ? `${IMAGE_BASE_URL}${POSTER_SIZE}${movie.poster_path}`
-              : undefined
-          }
-        />
+        <View style={styles.image}>
+          <ImageBackground
+            style={styles.imageBackground}
+            source={{
+              uri: `${IMAGE_BASE_URL}${BACKDROP_SIZE}${movie.backdrop_path}`,
+            }}
+            resizeMode="cover"
+            imageStyle={{
+              opacity: 0.7,
+            }}
+          >
+            <Thumb
+              align="flex-start"
+              size="medium"
+              image={
+                movie.poster_path
+                  ? `${IMAGE_BASE_URL}${POSTER_SIZE}${movie.poster_path}`
+                  : undefined
+              }
+            />
+          </ImageBackground>
+        </View>
         <Text style={styles.title}>{movie.title}</Text>
       </View>
       <View style={styles.actors}></View>
@@ -40,6 +54,12 @@ const styles = StyleSheet.create({
   title: {
     alignSelf: "center",
     fontWeight: "bold",
+  },
+  image: {
+    flex: 1,
+  },
+  imageBackground: {
+    padding: 10,
   },
   actors: {
     flex: 1,

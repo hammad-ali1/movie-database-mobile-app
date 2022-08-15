@@ -5,8 +5,10 @@ import sizes from "../config/sizes";
 type PropTypes = {
   image: string | undefined | null;
   size?: "medium" | "big";
+  align?: "center" | "flex-end" | "flex-start";
+  margin?: number;
 };
-export default function Thumb({ image, size }: PropTypes) {
+export default function Thumb({ image, size, align, margin }: PropTypes) {
   let multiplyFactor;
   let userStyles: any = {};
   if (size === "medium") {
@@ -17,6 +19,12 @@ export default function Thumb({ image, size }: PropTypes) {
   if (multiplyFactor) {
     userStyles["width"] = sizes.thumbWidth * multiplyFactor;
     userStyles["height"] = sizes.thumbHeight * multiplyFactor;
+  }
+  if (align) {
+    userStyles["alignSelf"] = align;
+  }
+  if (margin !== undefined || null) {
+    userStyles["marginRight"] = margin;
   }
 
   const source = image ? { uri: image } : require("../assets/no_image.jpg");
