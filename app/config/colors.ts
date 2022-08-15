@@ -1,4 +1,7 @@
 const colors = {
+  //--------------------------------------------------------->
+  //--------------------------------------------------------->
+  //HOME SCREEN
   primary: "#d1cec9",
   searchIcon: "grey",
   //horizontal scroll bar
@@ -17,8 +20,24 @@ const colors = {
   statusBar: "#6a51ae",
   header: "#6349a8",
   headerText: "#fff",
+  //--------------------------------------------------------->
+  //--------------------------------------------------------->
+  //SEARCH SCREEN
   //text input
   textInput: "#efebf3c5",
+  //--------------------------------------------------------->
+  //--------------------------------------------------------->
+  //MOVIE SCREEN
+
+  movieDeailsBG: "rgba(0,0,0,0.5)",
+  ratingBG: "white",
+  ratingTXT: "black",
+  genresTXT: "white",
+  overviewBG: "rgba(0,0,0,0.6)",
+  overviewTXT: "white",
+  actorsContainer: "blue",
+  //--------------------------------------------------------->
+  //--------------------------------------------------------->
 };
 
 export default colors;

@@ -11,6 +11,8 @@ import { POSTER_SIZE, IMAGE_BASE_URL, BACKDROP_SIZE } from "../config/config";
 import useMovieDetailsFetch from "../hooks/useMovieDetailsFetch";
 //components
 import Thumb from "../components/Thumb";
+
+import colors from "../config/colors";
 //PropTypes
 type PropTypes = {};
 
@@ -70,7 +72,7 @@ const styles = StyleSheet.create({
   },
   movieDetails: {
     flex: 1,
-    backgroundColor: "rgba(0,0,0,0.5)",
+    backgroundColor: colors.movieDeailsBG,
   },
 
   imageBackground: {
@@ -90,16 +92,16 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     justifyContent: "center",
     alignContent: "center",
-    backgroundColor: "white",
+    backgroundColor: colors.ratingBG,
   },
   ratingText: {
     alignSelf: "center",
-    color: "black",
+    color: colors.ratingTXT,
     fontWeight: "bold",
     fontSize: 16,
   },
   genres: {
-    color: "white",
+    color: colors.genresTXT,
     fontWeight: "bold",
     fontSize: 16,
   },
@@ -108,14 +110,14 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   overview: {
-    backgroundColor: "rgba(0,0,0,0.6)",
-    color: "white",
+    backgroundColor: colors.overviewBG,
+    color: colors.overviewTXT,
     fontSize: 16,
     padding: 10,
   },
 
   actors: {
     flex: 1,
-    backgroundColor: "blue",
+    backgroundColor: colors.actorsContainer,
   },
 });
