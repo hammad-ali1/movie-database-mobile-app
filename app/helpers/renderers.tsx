@@ -14,8 +14,9 @@ class RenderParams<T> {
   showButton: boolean = false;
   customKeyExtractor?: (item: T) => number;
   customRenderItem?: ListRenderItem<T>;
+  horizontal: boolean = true;
 }
-export function renderHorizontalScroll<Item extends Movie | Show | Cast>(
+export function renderScroll<Item extends Movie | Show | Cast>(
   {
     title,
     titleStyles,
@@ -25,11 +26,13 @@ export function renderHorizontalScroll<Item extends Movie | Show | Cast>(
     showButton,
     customKeyExtractor,
     customRenderItem,
+    horizontal,
   } = new RenderParams<Item>()
 ) {
   if (items?.length === 0) return <></>;
   return (
     <HorizontalScroll
+      horizontal={horizontal}
       title={title}
       titleStyles={titleStyles}
       data={items}

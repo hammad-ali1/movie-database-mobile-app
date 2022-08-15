@@ -4,7 +4,7 @@ import useMoviesFetch from "../hooks/useMoviesFetch";
 import VerticalScroll from "../components/VerticalScroll";
 
 // helpers
-import { renderHorizontalScroll } from "../helpers/renderers";
+import { renderScroll } from "../helpers/renderers";
 
 export default function SearchScreen({ navigation }: RouteProps) {
   const { state, loading, error, setSearchTerm, searchTerm, setLoadOptions } =
@@ -12,7 +12,7 @@ export default function SearchScreen({ navigation }: RouteProps) {
   const { movies, shows } = state;
 
   const horizontalScrolls = [
-    renderHorizontalScroll({
+    renderScroll({
       title: "MOVIES",
       items: movies.searchResultsMovies.results,
       navigation,
@@ -21,7 +21,7 @@ export default function SearchScreen({ navigation }: RouteProps) {
         movies.searchResultsMovies.page !==
         movies.searchResultsMovies.total_pages,
     }),
-    renderHorizontalScroll({
+    renderScroll({
       title: "SHOWS",
       items: shows.searchResultsShows.results,
       navigation,

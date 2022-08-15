@@ -5,7 +5,7 @@ import CustomStatusBar from "../components/StatusBar";
 import useMoviesFetch from "../hooks/useMoviesFetch";
 import VerticalScroll from "../components/VerticalScroll";
 // helpers
-import { renderHorizontalScroll } from "../helpers/renderers";
+import { renderScroll } from "../helpers/renderers";
 
 function MovieHome({ navigation }: RouteProps) {
   const { state, error, setLoadOptions } = useMoviesFetch();
@@ -19,42 +19,42 @@ function MovieHome({ navigation }: RouteProps) {
   const trendingShows = state.shows.trendingShows;
 
   const horintalScrolls = [
-    renderHorizontalScroll({
+    renderScroll({
       title: "TOP RATED MOVIES",
       items: topMovies.results,
       navigation,
       showButton: true,
       onPress: () => setLoadOptions({ topRatedMovies: true }),
     }),
-    renderHorizontalScroll({
+    renderScroll({
       title: "POPULAR MOVIES",
       items: popularMovies.results,
       navigation,
       showButton: true,
       onPress: () => setLoadOptions({ popularMovies: true }),
     }),
-    renderHorizontalScroll({
+    renderScroll({
       title: "TRENDING MOVIES",
       items: trendingMovies.results,
       navigation,
       showButton: true,
       onPress: () => setLoadOptions({ trendingMovies: "day" }),
     }),
-    renderHorizontalScroll({
+    renderScroll({
       title: "TOP RATED SHOWS",
       items: topShows.results,
       navigation,
       showButton: true,
       onPress: () => setLoadOptions({ topRatedShows: true }),
     }),
-    renderHorizontalScroll({
+    renderScroll({
       title: "POPULAR SHOWS",
       items: popularShows.results,
       navigation,
       showButton: true,
       onPress: () => setLoadOptions({ popularShows: true }),
     }),
-    renderHorizontalScroll({
+    renderScroll({
       title: "TRENDING SHOWS",
       items: trendingShows.results,
       navigation,

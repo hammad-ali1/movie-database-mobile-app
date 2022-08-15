@@ -17,10 +17,8 @@ import Avatar from "../components/Avatar";
 import colors from "../config/colors";
 import sizes from "../config/sizes";
 import globalStyles from "../styles/globalStyles";
-import HorizontalScroll from "../components/HorizontalScroll";
-import { renderHorizontalScroll } from "../helpers/renderers";
+import { renderScroll } from "../helpers/renderers";
 //PropTypes
-import { Cast } from "../api/moviedb.api";
 type PropTypes = {};
 
 export default function MovieScreen({ navigation, route }: RouteProps) {
@@ -81,7 +79,7 @@ export default function MovieScreen({ navigation, route }: RouteProps) {
             {movie.overview}
           </Text>
           <View style={styles.actors}></View>
-          {renderHorizontalScroll({
+          {renderScroll({
             title: "RECCOMENDATIONS",
             titleStyles: { color: colors.scrollBarTitle, padding: 0 },
             items: similarMovies.results,
@@ -104,7 +102,7 @@ export default function MovieScreen({ navigation, route }: RouteProps) {
             renderItem={({ item: actor }) => <></>}
           />
         </View>
-        {renderHorizontalScroll({
+        {renderScroll({
           title: "ACTORS",
           titleStyles: { color: "black", margin: 0 },
           navigation,
