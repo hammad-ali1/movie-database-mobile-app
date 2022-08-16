@@ -36,6 +36,7 @@ const defaultConfig = {
 export class Movie {
   backdrop_path: string = "";
   id: number = 0;
+  imdb_id: string = "";
   adult: boolean = false;
   original_title: string = "";
   overview: string = "";
@@ -49,6 +50,10 @@ export class Movie {
   budget: number = 0;
   runtime: number = 0;
   revenue: number = 0;
+  release_date: string = "";
+  status: string = "";
+  tagline: string = "";
+  homepage: string = "";
 }
 export class Movies {
   page: number = 0;
