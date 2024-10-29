@@ -1,5 +1,3 @@
-# react-native-apps
+# Movie Database App
 
-This repository contains all of my react-native apps.
-Each branch contains the source file of different ongoing/completed projects.
-
+This app uses the free api provided by themoviedb.org. 
